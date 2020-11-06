@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="racecar", # Replace with your own username
-    version="0.0.1",
+    version="0.0.3",
     author="Charles Matthews",
     author_email="mail@cmatthe.ws",
     description="A lightweight Bayesian sampling package",

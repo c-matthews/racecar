@@ -6,6 +6,7 @@ from .algos.hmc import HMC
 from .algos.lm import LM
 from .algos.racecar import RACECAR
 from .algos.sgld import SGLD
+from .algos.badodab import BADODAB
 
 class Sampler():
 
@@ -30,6 +31,9 @@ class Sampler():
 
         if (algo.lower()=='racecar'):
             self.ig = RACECAR(np,ic,h,force,params)
+
+        if (algo.lower()=='badodab'):
+            self.ig = BADODAB(np,ic,h,force,params)
 
 
     def sample(self, Nsteps, printnum=None, thinning=1):

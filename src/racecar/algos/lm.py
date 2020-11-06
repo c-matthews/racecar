@@ -12,7 +12,8 @@ class LM():
 
     def step(self, q ):
 
-        self.v,f,fall = self.force(q)
+        fres = self.force(q)
+        self.v,f = fres.get('llh'), fres.get('grad') 
 
         q = q + self.h*f  + self.sqh2*self.R
 

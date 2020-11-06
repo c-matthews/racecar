@@ -1,6 +1,7 @@
 README.md
 setup.py
 src/racecar/__init__.py
+src/racecar/llh.py
 src/racecar/sampler.py
 src/racecar.egg-info/PKG-INFO
 src/racecar.egg-info/SOURCES.txt
@@ -8,6 +9,7 @@ src/racecar.egg-info/dependency_links.txt
 src/racecar.egg-info/requires.txt
 src/racecar.egg-info/top_level.txt
 src/racecar/algos/__init__.py
+src/racecar/algos/badodab.py
 src/racecar/algos/hmc.py
 src/racecar/algos/lm.py
 src/racecar/algos/racecar.py

@@ -1,45 +1,22 @@
 
-class RACECAR():
+class BADODAB():
 
     def __init__(self,np,ic,h,force,params):
 
         self.h = h
         self.h2 = h/2
-        self.Nrk4 = params.get('Nrk4',1)
-        self.rk4h = self.h2 / self.Nrk4
         self.np = np
 
-        g = params.get('g',1)
-        self.c1 = np.exp(-g*h)
-        self.c3 = np.sqrt(1-self.c1*self.c1)
+        self.g = params.get('g',1)
 
         self.p = np.random.randn( *ic.shape )
 
         self.force = force
+
         fres = self.force(ic)
-        self.v,self.f,ff = fres.get('llh'), fres.get('grad'), fres.get('grad_data')
+        self.v,self.f = fres.get('llh'), fres.get('grad')
 
-        Nxi = params.get('Nxi',0)
-        NX = len(ic) * ( (1+2*Nxi) ) - ((Nxi)*(Nxi+1))
-        NX = min(NX, len(ic)**2 )
-
-        self.xi = np.random.randn( NX,1 )
-
-
-        if (ff is not None):
-            C = np.abs(np.cov( ff ))
-            self.C = C.copy()
-            C = C + np.eye(len(ic))*(1+C.max())
-            Cval = np.sort( C.flatten())[-NX:].min()
-            self.Cx = self.C * (C>=Cval)
-            C = (C >= Cval)
-        else:
-            N = len(ic)
-            C = np.tri(N,N,Nxi)==np.tri(N,N,Nxi).T
-            self.C = C
-
-        self.cii,self.cjj = np.where(C)
-        self.tgt = np.array(self.cii==self.cjj, dtype=int)
+        self.xi = np.random.randn( )
 
 
     def clear(self,q):
@@ -53,13 +30,13 @@ class RACECAR():
         self.p = self.p + h2 * self.f
         q = q + h2 * self.p
 
-        for n in range( self.Nrk4 ):
-            self.RK4()
+        self.xi = self.xi + h2*( self.np.sum(self.p*self.p) - self.p.size )
 
-        self.p = self.p * self.c1 + self.c3 * self.np.random.randn( *self.p.shape )
+        c1 = self.np.exp(-self.xi*h)
+        c3 = self.np.sqrt( self.np.abs(self.g*(1-c1*c1) / (self.xi) ) )
+        self.p = self.p * c1 + c3 * self.np.random.randn( *self.p.shape )
 
-        for n in range( self.Nrk4 ):
-            self.RK4()
+        self.xi = self.xi + h2*( self.np.sum(self.p*self.p) - self.p.size )
 
         q = q + h2 * self.p
 

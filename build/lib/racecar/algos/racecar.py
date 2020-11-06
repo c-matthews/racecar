@@ -15,22 +15,29 @@ class RACECAR():
 
         self.p = np.random.randn( *ic.shape )
 
-        NX = len(ic) * ( 1+2*params.get('Nxi',0) )
+        self.force = force
+        fres = self.force(ic)
+        self.v,self.f,ff = fres.get('llh'), fres.get('grad'), fres.get('grad_data')
+
+        Nxi = params.get('Nxi',0)
+        NX = len(ic) * ( (1+2*Nxi) ) - ((Nxi)*(Nxi+1))
         NX = min(NX, len(ic)**2 )
 
         self.xi = np.random.randn( NX,1 )
 
-        self.force = force
 
-        self.v,self.f, ff = force( ic )
+        if (ff is not None):
+            C = np.abs(np.cov( ff ))
+            self.C = C.copy()
+            C = C + np.eye(len(ic))*(1+C.max())
+            Cval = np.sort( C.flatten())[-NX:].min()
+            self.Cx = self.C * (C>=Cval)
+            C = (C >= Cval)
+        else:
+            N = len(ic)
+            C = np.tri(N,N,Nxi)==np.tri(N,N,Nxi).T
+            self.C = C
 
-        C = np.abs(np.cov( ff ))
-        self.C = C.copy()
-
-        C = C + np.eye(len(ic))*C.max()
-        Cval = np.sort( C.flatten())[-NX:].min()
-        self.Cx = self.C * (C>=Cval)
-        C = (C >= Cval)
         self.cii,self.cjj = np.where(C)
         self.tgt = np.array(self.cii==self.cjj, dtype=int)
 
@@ -55,7 +62,9 @@ class RACECAR():
             self.RK4()
 
         q = q + h2 * self.p
-        self.v,self.f,_ = self.force(q)
+
+        fres = self.force(q)
+        self.v,self.f = fres.get('llh'), fres.get('grad')
 
         self.p = self.p + h2 * self.f
 

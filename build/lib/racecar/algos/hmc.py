@@ -9,7 +9,8 @@ class HMC():
         self.force = force
         self.np = np
 
-        self.v, self.f, _ = self.force(ic)
+        fres = self.force(ic)
+        self.v,self.f = fres.get('llh'), fres.get('grad')
 
         self.acc = 0
 
@@ -20,7 +21,7 @@ class HMC():
         q0 = q.copy()
 
         V0 = self.v
-        K0 = self.np.sum( p*p )/2
+        K0 = -self.np.sum( p*p )/2
 
         f = self.f.copy()
 
@@ -30,12 +31,13 @@ class HMC():
         for m in range( self.M ):
             p = p + h2*f
             q = q + h*p
-            V1,f,_ = self.force(q)
+            fres = self.force(q)
+            V1,f = fres.get('llh'), fres.get('grad')
             p = p + h2*f
 
-        K1 = self.np.sum( p*p )/2
+        K1 = -self.np.sum( p*p )/2
 
-        dH = (V1-V0) + (K1-K0)
+        dH = (V0-V1) + (K0-K1)
 
         if (self.np.log( self.np.random.rand() ) < -dH ):
             # Accept
@@ -48,5 +50,6 @@ class HMC():
         return q0
 
     def clear(self,q):
-        self.v, self.f, _ = self.force(q)
+        fres = self.force(q)
+        self.v, self.f = fres.get('llh'), fres.get('grad')
         self.acc = 0

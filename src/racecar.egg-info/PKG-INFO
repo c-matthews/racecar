@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: racecar
-Version: 0.0.1
+Version: 0.0.3
 Summary: A lightweight Bayesian sampling package
 Home-page: https://github.com/c-matthews/racecar
 Author: Charles Matthews
@@ -8,9 +8,7 @@ Author-email: mail@cmatthe.ws
 License: UNKNOWN
 Description: # Racecar
         
-        This is a lightweight Bayesian sampling package. You can use
-        [Github-flavored Markdown](https://guides.github.com/features/mastering-markdown/)
-        to write your content.
+        This is a lightweight Bayesian sampling package.
         
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
