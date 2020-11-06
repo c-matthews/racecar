@@ -6,6 +6,6 @@ install:
 before_install:
   - python --version
 install:
-  - pip3 install --upgrade pip
+  - pip3 install -e .
 script:
-  - python3 test.py
+  - pytest
