@@ -46,34 +46,3 @@ class BADODAB():
         self.p = self.p + h2 * self.f
 
         return q
-
-
-    def RK4(self):
-
-        h = self.rk4h
-
-        h2 = h / 2
-        p = self.p
-        xi = self.xi
-
-        K1p, K1xi = self.df(p,xi)
-        K2p, K2xi = self.df(p + h2*K1p,xi + h2*K1xi)
-        K3p, K3xi = self.df(p + h2*K2p,xi + h2*K2xi)
-        K4p, K4xi = self.df(p + h*K3p,xi + h*K3xi)
-
-        pp = p + (K1p + 2*K2p + 2*K3p + K4p)*h/6
-        xx = xi + (K1xi + 2*K2xi + 2*K3xi + K4xi)*h/6
-
-        self.p = pp
-        self.xi = xx
-
-
-    def df(self,p,xi):
-
-        dp = p.copy()
-        self.np.add.at( dp , self.cii , -xi*( p.copy()[self.cjj] ) )
-        dp = dp - p
-
-        dxi = (p[self.cii]*p[self.cjj] - self.tgt.reshape(xi.shape) )
-
-        return dp, dxi

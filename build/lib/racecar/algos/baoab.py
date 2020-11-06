@@ -1,5 +1,5 @@
 
-class BADODAB():
+class BAOAB():
 
     def __init__(self,np,ic,h,force,params):
 
@@ -16,8 +16,6 @@ class BADODAB():
         fres = self.force(ic)
         self.v,self.f = fres.get('llh'), fres.get('grad')
 
-        self.xi = np.random.randn( )
-
 
     def clear(self,q):
         pass
@@ -30,13 +28,9 @@ class BADODAB():
         self.p = self.p + h2 * self.f
         q = q + h2 * self.p
 
-        self.xi = self.xi + h2*( self.np.sum(self.p*self.p) - self.p.size )
-
-        c1 = self.np.exp(-self.xi*h)
-        c3 = self.np.sqrt( self.np.abs(self.g*(1-c1*c1) / (self.xi) ) )
+        c1 = self.np.exp(-self.g*h)
+        c3 = self.np.sqrt( 1-c1*c1 )
         self.p = self.p * c1 + c3 * self.np.random.randn( *self.p.shape )
-
-        self.xi = self.xi + h2*( self.np.sum(self.p*self.p) - self.p.size )
 
         q = q + h2 * self.p
 

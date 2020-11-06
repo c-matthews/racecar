@@ -10,7 +10,9 @@ src/racecar.egg-info/requires.txt
 src/racecar.egg-info/top_level.txt
 src/racecar/algos/__init__.py
 src/racecar/algos/badodab.py
+src/racecar/algos/baoab.py
 src/racecar/algos/hmc.py
 src/racecar/algos/lm.py
 src/racecar/algos/racecar.py
+src/racecar/algos/rwmetropolis.py
 src/racecar/algos/sgld.py

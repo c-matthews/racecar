@@ -40,3 +40,19 @@ def test_racecar():
     Q = S.sample(100)
 
     assert(Q.shape==(100,3))
+
+def test_baoab():
+
+    S = rc.sampler([0,0,0], 0.1, rc.llh.isotropic_gaussian, algo='baoab')
+
+    Q = S.sample(100)
+
+    assert(Q.shape==(100,3))
+
+def test_rwmetropolis():
+
+    S = rc.sampler([0,0,0], 0.1, rc.llh.isotropic_gaussian, algo='rwmetropolis')
+
+    Q = S.sample(100)
+
+    assert(Q.shape==(100,3))

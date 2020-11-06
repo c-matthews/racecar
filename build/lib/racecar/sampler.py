@@ -7,6 +7,8 @@ from .algos.lm import LM
 from .algos.racecar import RACECAR
 from .algos.sgld import SGLD
 from .algos.badodab import BADODAB
+from .algos.baoab import BAOAB
+from .algos.rwmetropolis import RWMETROPOLIS
 
 class Sampler():
 
@@ -20,20 +22,28 @@ class Sampler():
         if (params.get('seed') is not None):
             np.random.seed( params.get('seed') )
 
+        args = (np,ic,h,force,params)
+
         if (algo.lower()=='sgld'):
-            self.ig = SGLD(np,ic,h,force,params)
+            self.ig = SGLD( *args )
 
         if (algo.lower()=='lm'):
-            self.ig = LM(np,ic,h,force,params)
+            self.ig = LM( *args )
 
         if (algo.lower()=='hmc'):
-            self.ig = HMC(np,ic,h,force,params)
+            self.ig = HMC( *args )
 
         if (algo.lower()=='racecar'):
-            self.ig = RACECAR(np,ic,h,force,params)
+            self.ig = RACECAR( *args )
 
         if (algo.lower()=='badodab'):
-            self.ig = BADODAB(np,ic,h,force,params)
+            self.ig = BADODAB( *args )
+
+        if (algo.lower()=='baoab'):
+            self.ig = BAOAB( *args )
+
+        if (algo.lower()=='rwmetropolis'):
+            self.ig = RWMETROPOLIS( *args )
 
 
     def sample(self, Nsteps, printnum=None, thinning=1):
