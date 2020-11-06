@@ -5,13 +5,10 @@ class RACECAR():
 
         self.h = h
         self.h2 = h/2
-        self.Nrk4 = params.get('Nrk4',1)
-        self.rk4h = self.h2 / self.Nrk4
         self.np = np
 
-        g = params.get('g',1)
-        self.c1 = np.exp(-g*h)
-        self.c3 = np.sqrt(1-self.c1*self.c1)
+        self.g = params.get('g',1)
+        self.mu = params.get('mu',100)
 
         self.p = np.random.randn( *ic.shape )
 
@@ -19,84 +16,116 @@ class RACECAR():
         fres = self.force(ic)
         self.v,self.f,ff = fres.get('llh'), fres.get('grad'), fres.get('grad_data')
 
-        Nxi = params.get('Nxi',0)
-        NX = len(ic) * ( (1+2*Nxi) ) - ((Nxi)*(Nxi+1))
-        NX = min(NX, len(ic)**2 )
+        Ndim = ic.size
 
-        self.xi = np.random.randn( NX,1 )
-
-
-        if (ff is not None):
-            C = np.abs(np.cov( ff ))
-            self.C = C.copy()
-            C = C + np.eye(len(ic))*(1+C.max())
-            Cval = np.sort( C.flatten())[-NX:].min()
-            self.Cx = self.C * (C>=Cval)
-            C = (C >= Cval)
+        self.use_basis = False
+        if (params.get('basis') is not None):
+            self.B = params.get('basis')
+            self.use_basis = True
         else:
-            N = len(ic)
-            C = np.tri(N,N,Nxi)==np.tri(N,N,Nxi).T
-            self.C = C
+            if (ff is not None) and (params.get('estimate_basis',True)):
+                assert( ff.shape[0]==Ndim )
+                evals, self.B = np.linalg.eig( (1e-3)*np.eye(Ndim) + np.cov(ff) )
+                evals = evals.real
+                self.B = self.B.real
+                
+                sz = params.get('basis_size')
+                if (sz is not None):
+                    self.B = self.B[: , self.np.argsort(evals)[-sz:] ]
+                self.use_basis = True
 
-        self.cii,self.cjj = np.where(C)
-        self.tgt = np.array(self.cii==self.cjj, dtype=int)
+        if (self.use_basis):
+            self.Bperp = np.eye(Ndim) - np.dot(self.B, self.B.T)
+            self.xi = (1e-2)*np.random.randn( self.B.shape[1],1 )
+        else:
+            self.xi = (1e-2)*np.random.randn( Ndim,1 )
 
 
     def clear(self,q):
         pass
+
+    def step_C(self):
+
+        dh = [1.351207191959657, -1.702414383919315]
+        # dh = [0.784513610477560e0, 0.235573213359357e0, -1.17767998417887e0,
+        #       1.31518632068391e0]
+        # dh = [1]
+        # dh = [0.104242620869991e1, 0.182020630970714e1, 0.157739928123617e0,
+        #  0.244002732616735e1, -0.716989419708120e-2, -0.244699182370524e1,
+        #  -0.161582374150097e1, -0.17808286265894516e1]
+
+        dh = dh + dh[-2::-1]
+
+        if (self.use_basis):
+            Bp = self.np.dot(self.B.T, self.p )
+        else:
+            Bp = self.p
+
+        xi = self.xi
+
+        Bp,xi = self.leapfrog_C( Bp, xi , dh[0]*self.h2 )
+        Bp,xi = self.leapfrog_C( Bp, xi , dh[1]*self.h2 )
+        Bp,xi = self.leapfrog_C( Bp, xi , dh[2]*self.h2 )
+
+        self.xi = xi
+
+        if (self.use_basis):
+            self.p = self.p - self.np.linalg.multi_dot([self.B,self.B.T,self.p])
+            self.p = self.p + self.np.dot( self.B , Bp )
+        else:
+            self.p = Bp
+
+        return
+
+    def leapfrog_C( self, pp, xx, h):
+
+        h2 = h/2
+
+        xx = xx + (pp*pp-1)*h2/self.mu
+        pp = pp * self.np.exp(-h*xx)
+        xx = xx + (pp*pp-1)*h2/self.mu
+
+        return pp,xx
+
+
+
+    def step_E(self):
+
+        c1 = self.np.exp(-self.h*self.g)
+        c3 = self.np.sqrt(1-c1*c1)
+        self.p = c1 * self.p + c3 * self.np.random.randn( *self.p.shape )
+
+        return
+
+
 
     def step(self,q):
 
         h = self.h
         h2 = self.h2
 
+        # R
         self.p = self.p + h2 * self.f
+
+        # A
         q = q + h2 * self.p
 
-        for n in range( self.Nrk4 ):
-            self.RK4()
+        # C
+        self.step_C()
 
-        self.p = self.p * self.c1 + self.c3 * self.np.random.randn( *self.p.shape )
+        # E
+        self.step_E()
 
-        for n in range( self.Nrk4 ):
-            self.RK4()
+        # C
+        self.step_C()
 
+        # A
         q = q + h2 * self.p
 
         fres = self.force(q)
         self.v,self.f = fres.get('llh'), fres.get('grad')
 
+        # R
         self.p = self.p + h2 * self.f
 
         return q
-
-
-    def RK4(self):
-
-        h = self.rk4h
-
-        h2 = h / 2
-        p = self.p
-        xi = self.xi
-
-        K1p, K1xi = self.df(p,xi)
-        K2p, K2xi = self.df(p + h2*K1p,xi + h2*K1xi)
-        K3p, K3xi = self.df(p + h2*K2p,xi + h2*K2xi)
-        K4p, K4xi = self.df(p + h*K3p,xi + h*K3xi)
-
-        pp = p + (K1p + 2*K2p + 2*K3p + K4p)*h/6
-        xx = xi + (K1xi + 2*K2xi + 2*K3xi + K4xi)*h/6
-
-        self.p = pp
-        self.xi = xx
-
-
-    def df(self,p,xi):
-
-        dp = p.copy()
-        self.np.add.at( dp , self.cii , -xi*( p.copy()[self.cjj] ) )
-        dp = dp - p
-
-        dxi = (p[self.cii]*p[self.cjj] - self.tgt.reshape(xi.shape) )
-
-        return dp, dxi
