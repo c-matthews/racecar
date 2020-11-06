@@ -1,5 +1,15 @@
 import numpy as np
 
+def isotropic_gaussian(q):
+
+    llh = -np.sum(q*q)/2
+    grad = -q
+
+    return {
+    'llh' : llh,
+    'grad' : grad
+    }
+
 def blr(q, XX,tt, idxs=None):
 
     Ndata = XX.shape[1]
