@@ -2,11 +2,11 @@
 <br />
 <p align="center">
   <a href="https://github.com/c-matthews/racecar#readme">
-    <img src="img/logo.png" alt="Logo" width="420" height="210">
+    <img src="https://raw.githubusercontent.com/c-matthews/racecar/main/img/logo.png" alt="Logo" width="420" height="210">
   </a>
 
   <p align="center">
-    A Python package of awesome sampling algorithms.
+    A Python package collecting awesome sampling algorithms.
     <br />
     <a href="https://github.com/c-matthews/racecar#readme"><strong>Explore the docs »</strong></a>
     <br />
@@ -62,7 +62,7 @@
 
 ##### Simple example
 
-We will sample points from the distribution $\pi(x) \propto \exp(-x^2/12-\cos(2x))$ using racecar and plot the results.
+We will sample points from the distribution <img src="https://latex.codecogs.com/gif.latex?\pi(x)\propto%20\exp(-x^2/12-\cos(2x))" /> using racecar and plot the results.
 
 ```python
 # Import racecar and numpy
@@ -85,7 +85,7 @@ Pos_traj, LLH_traj = S.sample(100000, output=['pos','llh'])
 
 # Plot the results using matplotlib
 ```
-<img src="img/cos_example.png"
+<img src="https://raw.githubusercontent.com/c-matthews/racecar/main/img/cos_example.png"
   alt="Results" />
 
 ##### More examples
