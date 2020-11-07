@@ -1,5 +1,9 @@
-"""
-Racecar :: A lightweight Bayesian sampling algorithm
+"""Racecar
+
+A lightweight python sampling package.
+
+See https://github.com/c-matthews/racecar for information and examples.
+
 """
 from __future__ import absolute_import
 
@@ -11,3 +15,4 @@ __author__ = "Charles Matthews"
 __license__ = "MIT"
 __maintainer__ = "Charles Matthews"
 __email__ = "mail@cmatthe.ws"
+__version__ = "0.1.0"

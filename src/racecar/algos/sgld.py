@@ -1,23 +1,13 @@
+from .algorithm import Algorithm
 
-class SGLD():
 
-    def __init__(self,np,ic,h,force,params):
+class SGLD(Algorithm):
+    def step(self, q):
 
-        self.sq2h = np.sqrt(2*h)
-        self.h = h
 
-        self.np = np
-
-        self.force = force
-
-    def step(self, q ):
+        q = q + self.h * self.f + self.sq2h * self.np.random.randn(*q.shape)
 
         fres = self.force(q)
-        self.v,f = fres.get('llh'), fres.get('grad') 
-
-        q = q + self.h*f  + self.sq2h*self.np.random.randn( *q.shape )
+        self.v, self.f = fres.get("llh"), fres.get("grad")
 
         return q
-
-    def clear(self,q):
-        pass

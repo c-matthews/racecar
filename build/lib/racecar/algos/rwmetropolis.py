@@ -1,19 +1,10 @@
+from .algorithm import Algorithm
 
-class RWMETROPOLIS():
 
-    def __init__(self,np,ic,h,force,params):
+class RWMETROPOLIS(Algorithm):
+    def step(self, q):
 
-        self.h = h
-        self.force = force
-        self.np = np
-
-        fres = self.force(ic)
-        self.v  = fres.get('llh')
-        self.acc = 0
-
-    def step(self,q):
-
-        p = self.np.random.randn( *q.shape )
+        p = self.np.random.randn(*q.shape)
 
         q0 = q.copy()
 
@@ -21,23 +12,18 @@ class RWMETROPOLIS():
 
         h = self.h
 
-        q = q + h*p
+        q = q + h * p
         fres = self.force(q)
-        V1 = fres.get('llh')
+        V1, F = fres.get("llh"), fres.get("grad")
 
+        dH = V0 - V1
 
-        dH = (V0-V1)
-
-        if (self.np.log( self.np.random.rand() ) < -dH ):
+        if self.np.log(self.np.random.rand()) < -dH:
             # Accept
             self.acc += 1
-            self.v = V1 
+            self.v = V1
+            self.f = F
             return q
 
         # Not accept
         return q0
-
-    def clear(self,q):
-        fres = self.force(q)
-        self.v  = fres.get('llh')
-        self.acc = 0

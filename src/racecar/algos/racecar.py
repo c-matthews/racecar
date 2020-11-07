@@ -1,104 +1,82 @@
+from .algorithm import Algorithm
 
-class RACECAR():
 
-    def __init__(self,np,ic,h,force,params):
+class RACECAR(Algorithm):
+    def __init__(self, np, ic, h, force, params):
 
-        self.h = h
-        self.h2 = h/2
-        self.np = np
+        super().__init__(np, ic, h, force, params)
 
-        self.g = params.get('g',1)
-        self.mu = params.get('mu',100)
-
-        self.p = np.random.randn( *ic.shape )
-
-        self.force = force
-        fres = self.force(ic)
-        self.v,self.f,ff = fres.get('llh'), fres.get('grad'), fres.get('grad_data')
+        self.g = params.get("g", 1)
+        self.mu = params.get("mu", 100)
+        ff = self.ff
 
         Ndim = ic.size
 
         self.use_basis = False
-        if (params.get('basis') is not None):
-            self.B = params.get('basis')
+        if params.get("basis") is not None:
+            self.B = params.get("basis")
             self.use_basis = True
         else:
-            if (ff is not None) and (params.get('estimate_basis',True)):
-                assert( ff.shape[0]==Ndim )
-                evals, self.B = np.linalg.eig( (1e-3)*np.eye(Ndim) + np.cov(ff) )
+            if (ff is not None) and (params.get("estimate_basis", True)):
+                assert ff.shape[0] == Ndim
+                evals, self.B = np.linalg.eig((1e-3) * np.eye(Ndim) + np.cov(ff))
                 evals = evals.real
                 self.B = self.B.real
 
-                sz = params.get('basis_size')
-                if (sz is not None):
-                    self.B = self.B[: , self.np.argsort(evals)[-sz:] ]
+                sz = params.get("basis_size")
+                if sz is not None:
+                    self.B = self.B[:, self.np.argsort(evals)[-sz:]]
                 self.use_basis = True
 
-        if (self.use_basis):
-            self.xi = (1/self.mu)*np.random.randn( self.B.shape[1],1 )
+        if self.use_basis:
+            self.xi = (1 / self.mu) * np.random.randn(self.B.shape[1], 1)
         else:
-            self.xi = (1/self.mu)*np.random.randn( Ndim,1 )
-
-
-    def clear(self,q):
-        pass
+            self.xi = (1 / self.mu) * np.random.randn(Ndim, 1)
 
     def step_C(self):
 
-        dh = [1.351207191959657, -1.702414383919315]
-        # dh = [0.784513610477560e0, 0.235573213359357e0, -1.17767998417887e0,
-        #       1.31518632068391e0]
-        # dh = [1]
-        # dh = [0.104242620869991e1, 0.182020630970714e1, 0.157739928123617e0,
-        #  0.244002732616735e1, -0.716989419708120e-2, -0.244699182370524e1,
-        #  -0.161582374150097e1, -0.17808286265894516e1]
+        dh = [1.351207191959657, -1.702414383919315, 1.351207191959657]
 
-        dh = dh + dh[-2::-1]
-
-        if (self.use_basis):
-            Bp = self.np.dot(self.B.T, self.p )
+        if self.use_basis:
+            Bp = self.np.dot(self.B.T, self.p)
         else:
             Bp = self.p
 
         xi = self.xi
 
-        Bp,xi = self.leapfrog_C( Bp, xi , dh[0]*self.h2 )
-        Bp,xi = self.leapfrog_C( Bp, xi , dh[1]*self.h2 )
-        Bp,xi = self.leapfrog_C( Bp, xi , dh[2]*self.h2 )
+        Bp, xi = self.leapfrog_C(Bp, xi, dh[0] * self.h2)
+        Bp, xi = self.leapfrog_C(Bp, xi, dh[1] * self.h2)
+        Bp, xi = self.leapfrog_C(Bp, xi, dh[2] * self.h2)
 
         self.xi = xi
 
-        if (self.use_basis):
-            self.p = self.p - self.np.linalg.multi_dot([self.B,self.B.T,self.p])
-            self.p = self.p + self.np.dot( self.B , Bp )
+        if self.use_basis:
+            self.p = self.p - self.np.linalg.multi_dot([self.B, self.B.T, self.p])
+            self.p = self.p + self.np.dot(self.B, Bp)
         else:
             self.p = Bp
 
         return
 
-    def leapfrog_C( self, pp, xx, h):
+    def leapfrog_C(self, pp, xx, h):
 
-        h2 = h/2
+        h2 = h / 2
 
-        xx = xx + (pp*pp-1)*h2/self.mu
-        pp = pp * self.np.exp(-h*xx)
-        xx = xx + (pp*pp-1)*h2/self.mu
+        xx = xx + (pp * pp - 1) * h2 / self.mu
+        pp = pp * self.np.exp(-h * xx)
+        xx = xx + (pp * pp - 1) * h2 / self.mu
 
-        return pp,xx
-
-
+        return pp, xx
 
     def step_E(self):
 
-        c1 = self.np.exp(-self.h*self.g)
-        c3 = self.np.sqrt(1-c1*c1)
-        self.p = c1 * self.p + c3 * self.np.random.randn( *self.p.shape )
+        c1 = self.np.exp(-self.h * self.g)
+        c3 = self.np.sqrt(1 - c1 * c1)
+        self.p = c1 * self.p + c3 * self.np.random.randn(*self.p.shape)
 
         return
 
-
-
-    def step(self,q):
+    def step(self, q):
 
         h = self.h
         h2 = self.h2
@@ -122,7 +100,7 @@ class RACECAR():
         q = q + h2 * self.p
 
         fres = self.force(q)
-        self.v,self.f = fres.get('llh'), fres.get('grad')
+        self.v, self.f = fres.get("llh"), fres.get("grad")
 
         # R
         self.p = self.p + h2 * self.f
