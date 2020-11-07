@@ -2,10 +2,8 @@
 <br />
 <p align="center">
   <a href="https://github.com/c-matthews/racecar#readme">
-    <img src="img/logo.png" alt="Logo" width="160" height="80">
+    <img src="img/logo.png" alt="Logo" width="320" height="160">
   </a>
-
-  <h3 align="center">racecar</h3>
 
   <p align="center">
     A Python package of awesome sampling algorithms.
@@ -21,13 +19,34 @@
   </p>
 </p>
 
-<p align="center">
-[![Travis (.com)](https://img.shields.io/travis/com/c-matthews/racecar?style=plastic)](https://travis-ci.com/c-matthews/racecar)
-[![Python](https://img.shields.io/badge/python-v3.6+-blue?style=plastic&logo=python)](https://github.com/c-matthews/racecar)
-[![PyPI - License](https://img.shields.io/pypi/l/racecar?style=plastic)](https://github.com/c-matthews/racecar/blob/main/LICENSE)
-[![PyPI version shields.io](https://img.shields.io/pypi/v/racecar?style=plastic)](https://pypi.org/project/racecar/)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/racecar?style=plastic)](https://pypi.org/project/racecar/)
-</p>
+<div align="center">
+
+  <a href="https://travis-ci.com/c-matthews/racecar">
+    <img src="https://img.shields.io/travis/com/c-matthews/racecar?style=plastic"
+      alt="Travis.com build stability" />
+  </a>
+
+  <a href="https://github.com/c-matthews/racecar">
+    <img src="https://img.shields.io/badge/python-v3.6+-blue?style=plastic&logo=python"
+      alt="Python version" />
+  </a>
+
+  <a href="https://github.com/c-matthews/racecar/blob/main/LICENSE">
+    <img src="https://img.shields.io/pypi/l/racecar?style=plastic"
+      alt="MIT License" />
+  </a>
+
+  <a href="https://pypi.org/project/racecar/">
+    <img src="https://img.shields.io/pypi/v/racecar?style=plastic"
+      alt="Version" />
+  </a>
+
+  <a href="https://pypi.org/project/racecar/">
+    <img src="https://img.shields.io/pypi/dm/racecar?style=plastic"
+      alt="Version" />
+  </a>
+
+</div>
 
 ### Installation
 
