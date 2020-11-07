@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/c-matthews/racecar#readme">
-    <img src="img/logo.png" alt="Logo" width="320" height="160">
+    <img src="img/logo600.png" alt="Logo" width="500" height="250">
   </a>
 
   <p align="center">
@@ -47,6 +47,8 @@
   </a>
 
 </div>
+
+---
 
 ### Installation
 
