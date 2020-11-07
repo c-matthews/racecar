@@ -28,17 +28,16 @@ class RACECAR():
                 evals, self.B = np.linalg.eig( (1e-3)*np.eye(Ndim) + np.cov(ff) )
                 evals = evals.real
                 self.B = self.B.real
-                
+
                 sz = params.get('basis_size')
                 if (sz is not None):
                     self.B = self.B[: , self.np.argsort(evals)[-sz:] ]
                 self.use_basis = True
 
         if (self.use_basis):
-            self.Bperp = np.eye(Ndim) - np.dot(self.B, self.B.T)
-            self.xi = (1e-2)*np.random.randn( self.B.shape[1],1 )
+            self.xi = (1/self.mu)*np.random.randn( self.B.shape[1],1 )
         else:
-            self.xi = (1e-2)*np.random.randn( Ndim,1 )
+            self.xi = (1/self.mu)*np.random.randn( Ndim,1 )
 
 
     def clear(self,q):

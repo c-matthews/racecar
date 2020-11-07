@@ -46,14 +46,27 @@ class Sampler():
             self.ig = RWMETROPOLIS( *args )
 
 
-    def sample(self, Nsteps, printnum=None, thinning=1):
+    def sample(self, Nsteps, printnum=None, thin=1, output=['pos']):
 
         Qk = 0
-        NQ = 1+Nsteps//thinning
-        Q = np.zeros( [NQ , len(self.q.flatten() ) ] )
-
+        NQ = 1+Nsteps//thin
         self.ig.acc = 0
         self.ig.clear(self.q)
+
+        output_dict = {}
+        for o in output:
+            output_dict[o.lower()] = True
+
+        if (output_dict.get('pos')):
+            Q = np.zeros( [NQ , len(self.q.flatten() ) ] )
+        if (output_dict.get('mom')):
+            P = np.zeros( [NQ , len(self.ig.p.flatten() ) ] )
+        if (output_dict.get('llh')):
+            LLH = np.zeros( [NQ , 1 ] )
+        if (output_dict.get('grad')):
+            F = np.zeros( [NQ , len(self.ig.f.flatten() ) ] )
+        if (output_dict.get('xi')):
+            XI = np.zeros( [NQ , len(self.ig.xi.flatten() ) ] )
 
         stime = time.time()
 
@@ -66,8 +79,18 @@ class Sampler():
 
             self.q = self.ig.step( self.q )
 
-            if (n%thinning==0) and (Qk<NQ):
-                Q[Qk,:] = self.q.copy().flatten()
+            if (n%thin==0) and (Qk<NQ):
+                if (output_dict.get('pos')):
+                    Q[Qk,:] = self.q.copy().flatten()
+                if (output_dict.get('mom')):
+                    P[Qk,:] = self.ig.p.copy().flatten()
+                if (output_dict.get('llh')):
+                    LLH[Qk] = self.ig.v
+                if (output_dict.get('grad')):
+                    F[Qk,:] = self.ig.f.copy().flatten()
+                if (output_dict.get('xi')):
+                    XI[Qk,:] = self.ig.xi.copy().flatten()
+
                 Qk += 1
 
             if (np.isnan(self.q).any() ):
@@ -77,6 +100,21 @@ class Sampler():
                 print('Steps:',n+1 ,'  Time:',time.time() - stime ,'  V:', self.ig.v)
 
         self.timetaken = time.time() - stime
-        Q = Q[:Qk,:]
 
-        return Q
+        output_tuple = ()
+        for o in output:
+            if (o.lower()=='pos'):
+                output_tuple += (Q[:Qk,:],)
+            if (o.lower()=='mom'):
+                output_tuple += (P[:Qk,:],)
+            if (o.lower()=='llh'):
+                output_tuple += (LLH[:Qk],)
+            if (o.lower()=='xi'):
+                output_tuple += (XI[:Qk,:],)
+            if (o.lower()=='grad'):
+                output_tuple += (F[:Qk,:],)
+
+        if len(output_tuple)==1:
+            return output_tuple[0]
+
+        return output_tuple
