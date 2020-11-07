@@ -60,29 +60,37 @@
 
 ## Examples
 
-A simple example of usage is
+##### Simple example
+
+We will sample points from the distribution $\pi(x) \propto \exp(-x^2/12-\cos(2x))$ using racecar and plot the results.
 
 ```python
-# Import racecar, and numpy
+# Import racecar and numpy
 import racecar as rc
 import numpy as np
 
 # Define the log likelihood function
-def llh(q):
-  # Outputs 'llh' or 'grad' or 'grad_data'
+def llh(x):
   return {
-  'llh' : -( np.sin(q) )
+  'llh' : -( np.cos(2*x) + x**2/12 )
   }
 
-# Create the sampler object
-S = rc.sampler(llh=llh, h=0.1, ic=[0], algo="RWMetropolis")
+# Create the sampler object and use Random Walk Metropolis
+initial_condition = [0]
+learning_rate = 0.5
+S = rc.sampler(initial_condition, learning_rate, llh, algo="RWMetropolis")
 
-# Sample some points 
-Pos_traj, LLH_traj = S.sample(100, output=['pos','llh'])
+# Sample some points, outputting arrays of position and log likelihood
+Pos_traj, LLH_traj = S.sample(100000, output=['pos','llh'])
 
+# Plot the results using matplotlib
 ```
+<img src="img/cos_example.png"
+  alt="Results" />
 
-Some examples are given in detailed Jupyter notebooks below
+##### More examples
+
+Some more detailed examples are given in detailed Jupyter notebooks below
 
 - Example 1
 - Example 2
@@ -100,6 +108,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Made by Charles Matthews - [cmatthe.ws](https://www.cmatthe.ws) - mail@cmatthe.ws
+Made by Charles Matthews - [www.cmatthe.ws](https://www.cmatthe.ws) - mail@cmatthe.ws
 
 Project Link: [https://github.com/c-matthews/racecar](https://github.com/c-matthews/racecar)
