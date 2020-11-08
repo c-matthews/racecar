@@ -26,8 +26,8 @@
       alt="Travis.com build stability" />
   </a>
 
-  <a href="https://img.shields.io/readthedocs/racecar?style=plastic">
-    <img src="https://readthedocs.org/projects/racecar/badge/?version=latest"
+  <a href="https://racecar.readthedocs.io/en/latest/?badge=latest">
+    <img src="https://img.shields.io/readthedocs/racecar?style=plastic"
       alt="Docs build stability" />
   </a>
   
