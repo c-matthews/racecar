@@ -1,7 +1,7 @@
 Algorithms
 ======================
 
-Different sampling algorithms are available by modifying the ``algo`` argument of the racecar sampler.
+Different sampling algorithms are available by modifying the ``algo`` argument of the racecar sampler. Some algorithms make use of additional parameters that can be passed as a dictionary to the ``params`` argument of the sampler.
 
 
 Random Walk Metropolis

@@ -8,7 +8,7 @@
   <p align="center">
     A Python package collecting awesome sampling algorithms.
     <br />
-    <a href="https://github.com/c-matthews/racecar#readme"><strong>Explore the docs »</strong></a>
+    <a href="https://racecar.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/c-matthews/racecar#examples">Examples</a>
@@ -24,6 +24,11 @@
   <a href="https://travis-ci.com/c-matthews/racecar">
     <img src="https://img.shields.io/travis/com/c-matthews/racecar?style=plastic"
       alt="Travis.com build stability" />
+  </a>
+
+  <a href="https://racecar.readthedocs.io/en/latest/?badge=latest">
+    <img src="https://readthedocs.org/projects/racecar/badge/?version=latest"
+      alt="Docs build stability" />
   </a>
 
   <a href="https://github.com/c-matthews/racecar">

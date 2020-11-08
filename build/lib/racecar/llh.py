@@ -1,7 +1,13 @@
+'''
+Contains examples of functions for a variety of standard likelihoods.
+'''
 import numpy as np
 
 
+
 def isotropic_gaussian(q):
+    """Iso Gaussian
+    """
 
     llh = -np.sum(q * q) / 2
     grad = -q
@@ -10,6 +16,8 @@ def isotropic_gaussian(q):
 
 
 def blr(q, XX, tt, idxs=None):
+    """BLR
+    """
 
     Ndata = XX.shape[1]
 
