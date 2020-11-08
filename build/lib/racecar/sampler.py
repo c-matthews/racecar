@@ -22,43 +22,29 @@ class Sampler:
     """
     A class containing the state information for the current sampler object.
 
-    ...
-
-    Attributes
+    Parameters
     ----------
     ic : numpy array
         initial condition for the sampler
-    h : float
+    h : float, positive
         the step size or learning rate to use in the sampler
     llh : function
-        the log likelihood function
-    algo : string
-        the algorithm to use for the sampler
-    params : dict
-        parameters
+        The log posterior function to use for the sampler. The function should take the position as input, and output a dictionary.
+        The information required is algorithm-dependent. The algorithms make use of keys:
 
-    Methods
-    -------
-    sample(Nsteps, printnum=None, thin=1, output=["pos"]):
-        Runs the sampler and returns the trajectory
+        - `"llh"` (float) : The value of the posterior function at any point
+        - `"grad"` (numpy array) : The gradient of the posterior
+        - `"grad_data"` (numpy array) : The gradients of the posterior for each data point
+
+    algo : string, optional
+        The algorithm to use for the sampler. See the :ref:`algorithms` page  for a list of possible methods supported by the package. Uses the `racecar` algorithm as default.
+    params : dict, optional
+        parameters
     """
 
     def __init__(self, ic, h, llh, algo="racecar", params={}):
         """
         Constructs all the necessary attributes for the sampler object.
-
-        Parameters
-        ----------
-        ic : numpy array
-            initial condition for the sampler
-        h : float
-            the step size or learning rate to use in the sampler
-        llh : function
-            the log likelihood function
-        algo : string, optional
-            the algorithm to use for the sampler
-        params : dict, optional
-            parameters
         """
 
         self.timetaken = 0
@@ -101,11 +87,20 @@ class Sampler:
         Nsteps : int
             the number of steps to take.
         printnum : int, optional
-            if given, prints a  summary of the sampling _printnum_ times
+            if given, prints a  summary of the sampling `printnum` times
         thin : int, optional
-            thins the trajectory by only including one of each _thin_ points
+            thins the trajectory by only including one of each `thin` points
         output : list, optional
             a list of strings giving which arrays should be returned by the function.
+            The output list can contain
+
+            - "pos" : Outputs the trajectory of position
+            - "grad" : Outputs the gradient at each point
+            - "llh" : Output the log posterior evaluated at each point
+            - "xi" : Gives the auxilliary variable's value at each step
+            - 'mom' : The sampled momentum points
+
+            The default value is just ``["pos"]``.
 
         Returns
         -------
@@ -114,11 +109,11 @@ class Sampler:
         P : numpy array
             the sampled momentum points (if applicable)
         LLH : numpy array
-            the log likelihood of sampled points
+            the log posterior of sampled points
         XI : numpy array
             the sampled auxillary variables (if applicable)
         F : numpy array
-            the gradient of the log likelihood function at each sampled point (if applicable)
+            the gradient of the log posterior function at each sampled point (if applicable)
         """
 
         Qk = 0

@@ -1,13 +1,11 @@
 '''
-Contains examples of functions for a variety of standard likelihoods.
+Contains examples of standard likelihood functions for usage in the package.
 '''
 import numpy as np
 
-
-
 def isotropic_gaussian(q):
     '''
-    An isotropic Gaussian likelihood function :math:`p(x) \propto exp(-\|x\|^2/2)`.
+    An isotropic Gaussian likelihood function.
 
     Parameters
     ----------
@@ -27,9 +25,9 @@ def isotropic_gaussian(q):
     return {"llh": llh, "grad": grad}
 
 
-def blr(q, XX, tt, idxs=None):
+def blr(q, XX, tt, idxs=None, alpha=100 ):
     '''
-    Bayesian Logistic Regression with a mild Gaussian prior.
+    Bayesian Logistic Regression with a Gaussian prior.
 
     Parameters
     ----------
@@ -39,14 +37,16 @@ def blr(q, XX, tt, idxs=None):
         A (N,d) array, where the d datapoints have dimensionality N.
     tt : numpy array
         A (1,d) binary array of indicator values
-    idxs : list or iterable
+    idxs : list or iterable, optional
         A list of indexes to use in the BLR calculation
+    alpha : float, optional
+        The variance of the Gaussian prior, default 100.
 
 
     Returns
     -------
     r : dictionary
-        returns the log likelihood under the ``llh`` key, the gradient under the ``grad`` key and the gradients for each data point are given in ``grad_data``. 
+        returns the log likelihood under the ``llh`` key, the gradient under the ``grad`` key and the gradients for each data point are given in ``grad_data``.
     '''
 
     Ndata = XX.shape[1]
@@ -56,7 +56,6 @@ def blr(q, XX, tt, idxs=None):
 
     X = XX[:, idxs].T
     t = tt[:, idxs].T
-    alpha = 100
 
     # Prior
     Vprior = -0.5 * np.sum(q ** 2) / alpha

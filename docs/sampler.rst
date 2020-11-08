@@ -1,7 +1,7 @@
 Documentation
 =============
 
-The ``sampler`` object
+The ``sampler`` module
 *****************************
 .. autoclass:: racecar.sampler
     :members:
@@ -11,7 +11,6 @@ The ``sampler`` object
 .. autoclass:: racecar.sampler.Sampler
     :members:
     :undoc-members:
-    :show-inheritance:
 
 The ``llh`` module
 *****************************
