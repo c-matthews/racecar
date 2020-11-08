@@ -26,11 +26,11 @@
       alt="Travis.com build stability" />
   </a>
 
-  <a href="https://racecar.readthedocs.io/en/latest/?badge=latest">
+  <a href="https://img.shields.io/readthedocs/racecar?style=plastic">
     <img src="https://readthedocs.org/projects/racecar/badge/?version=latest"
       alt="Docs build stability" />
   </a>
-
+  
   <a href="https://github.com/c-matthews/racecar">
     <img src="https://img.shields.io/badge/python-v3.6+-blue?style=plastic&logo=python"
       alt="Python version" />

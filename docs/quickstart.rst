@@ -33,4 +33,4 @@ Below we give a quick example sampling a one-dimensional distribution.
   :align: center
   :alt: Results
 
-For other examples, take a look at the `examples page on Github <https://github.com/c-matthews/racecar#examples>`_.
+Take a look at the `examples page on Github <https://github.com/c-matthews/racecar#examples>`_ for more.
