@@ -1,6 +1,7 @@
 README.md
 setup.py
 src/racecar/__init__.py
+src/racecar/_version.py
 src/racecar/llh.py
 src/racecar/sampler.py
 src/racecar.egg-info/PKG-INFO

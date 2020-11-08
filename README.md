@@ -62,7 +62,7 @@
 
 ##### Simple example
 
-We will sample points from the distribution <img src="https://latex.codecogs.com/gif.latex?\pi(x)\propto%20\exp(-x^2/12-\cos(2x))" /> using racecar and plot the results.
+We will sample points from the distribution <img src="https://latex.codecogs.com/gif.latex?\pi(x)\propto%20\exp(-x^2/12-\cos(2x))" /> using the random walk Metropolis algorithm, and then plot the results.
 
 ```python
 # Import racecar and numpy

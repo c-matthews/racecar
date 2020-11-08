@@ -1,5 +1,8 @@
 """
-:: racecar
+:: racecar sampler class
+
+A class containing the state information for the current sampler object.
+
 """
 
 from __future__ import absolute_import

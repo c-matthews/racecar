@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Documentation &mdash; racecar  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Algorithms" href="algorithms.html" />
+    <link rel="prev" title="Examples &amp; Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> racecar
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Examples &amp; Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-sampler-object">The <code class="docutils literal notranslate"><span class="pre">sampler</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-racecar.llh">The <code class="docutils literal notranslate"><span class="pre">llh</span></code> module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">racecar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/sampler.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-sampler-object">
+<h2>The <code class="docutils literal notranslate"><span class="pre">sampler</span></code> object<a class="headerlink" href="#the-sampler-object" title="Permalink to this headline">¶</a></h2>
+<dl class="py attribute">
+<dt id="racecar.sampler">
+<code class="sig-prename descclassname">racecar.</code><code class="sig-name descname">sampler</code><a class="headerlink" href="#racecar.sampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#racecar.sampler.Sampler" title="racecar.sampler.Sampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">racecar.sampler.Sampler</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="racecar.sampler.Sampler">
+<em class="property">class </em><code class="sig-prename descclassname">racecar.sampler.</code><code class="sig-name descname">Sampler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ic</span></em>, <em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">llh</span></em>, <em class="sig-param"><span class="n">algo</span><span class="o">=</span><span class="default_value">'racecar'</span></em>, <em class="sig-param"><span class="n">params</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#racecar.sampler.Sampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class containing the state information for the current sampler object.</p>
+<p>…</p>
+<dl class="py attribute">
+<dt id="racecar.sampler.Sampler.ic">
+<code class="sig-name descname">ic</code><a class="headerlink" href="#racecar.sampler.Sampler.ic" title="Permalink to this definition">¶</a></dt>
+<dd><p>initial condition for the sampler</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="racecar.sampler.Sampler.h">
+<code class="sig-name descname">h</code><a class="headerlink" href="#racecar.sampler.Sampler.h" title="Permalink to this definition">¶</a></dt>
+<dd><p>the step size or learning rate to use in the sampler</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="racecar.sampler.Sampler.llh">
+<code class="sig-name descname">llh</code><a class="headerlink" href="#racecar.sampler.Sampler.llh" title="Permalink to this definition">¶</a></dt>
+<dd><p>the log likelihood function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="racecar.sampler.Sampler.algo">
+<code class="sig-name descname">algo</code><a class="headerlink" href="#racecar.sampler.Sampler.algo" title="Permalink to this definition">¶</a></dt>
+<dd><p>the algorithm to use for the sampler</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="racecar.sampler.Sampler.params">
+<code class="sig-name descname">params</code><a class="headerlink" href="#racecar.sampler.Sampler.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">sample(Nsteps, printnum=None, thin=1, output=[&quot;pos&quot;]):</code></dt>
+<dd><p>Runs the sampler and returns the trajectory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="racecar.sampler.Sampler.sample">
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Nsteps</span></em>, <em class="sig-param"><span class="n">printnum</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">thin</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">output</span><span class="o">=</span><span class="default_value">['pos']</span></em><span class="sig-paren">)</span><a class="headerlink" href="#racecar.sampler.Sampler.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the sampler and returns a trajectory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Nsteps</strong> (<em>int</em>) – the number of steps to take.</p></li>
+<li><p><strong>printnum</strong> (<em>int</em><em>, </em><em>optional</em>) – if given, prints a  summary of the sampling _printnum_ times</p></li>
+<li><p><strong>thin</strong> (<em>int</em><em>, </em><em>optional</em>) – thins the trajectory by only including one of each _thin_ points</p></li>
+<li><p><strong>output</strong> (<em>list</em><em>, </em><em>optional</em>) – a list of strings giving which arrays should be returned by the function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>Q</strong> (<em>numpy array</em>) – the trajectory array for sampled points</p></li>
+<li><p><strong>P</strong> (<em>numpy array</em>) – the sampled momentum points (if applicable)</p></li>
+<li><p><strong>LLH</strong> (<em>numpy array</em>) – the log likelihood of sampled points</p></li>
+<li><p><strong>XI</strong> (<em>numpy array</em>) – the sampled auxillary variables (if applicable)</p></li>
+<li><p><strong>F</strong> (<em>numpy array</em>) – the gradient of the log likelihood function at each sampled point (if applicable)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-racecar.llh">
+<span id="the-llh-module"></span><h2>The <code class="docutils literal notranslate"><span class="pre">llh</span></code> module<a class="headerlink" href="#module-racecar.llh" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="racecar.llh.blr">
+<code class="sig-prename descclassname">racecar.llh.</code><code class="sig-name descname">blr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">XX</span></em>, <em class="sig-param"><span class="n">tt</span></em>, <em class="sig-param"><span class="n">idxs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#racecar.llh.blr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="racecar.llh.isotropic_gaussian">
+<code class="sig-prename descclassname">racecar.llh.</code><code class="sig-name descname">isotropic_gaussian</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em><span class="sig-paren">)</span><a class="headerlink" href="#racecar.llh.isotropic_gaussian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="algorithms.html" class="btn btn-neutral float-right" title="Algorithms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Examples &amp; Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Charles Matthews
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

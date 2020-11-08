@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: racecar
-Version: 0.0.3
+Version: 0.0.5
 Summary: A lightweight Bayesian sampling package
 Home-page: https://github.com/c-matthews/racecar
 Author: Charles Matthews
@@ -70,7 +70,7 @@ Description: <!-- PROJECT LOGO -->
         
         ##### Simple example
         
-        We will sample points from the distribution <img src="https://latex.codecogs.com/gif.latex?\pi(x)\propto%20\exp(-x^2/12-\cos(2x))" /> using racecar and plot the results.
+        We will sample points from the distribution <img src="https://latex.codecogs.com/gif.latex?\pi(x)\propto%20\exp(-x^2/12-\cos(2x))" /> using the random walk Metropolis algorithm, and then plot the results.
         
         ```python
         # Import racecar and numpy

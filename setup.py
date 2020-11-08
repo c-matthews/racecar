@@ -1,11 +1,12 @@
 import setuptools
+import src.racecar._version as v
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="racecar", # Replace with your own username
-    version="0.0.3",
+    name="racecar",
+    version=v.version_number,
     author="Charles Matthews",
     author_email="mail@cmatthe.ws",
     description="A lightweight Bayesian sampling package",
