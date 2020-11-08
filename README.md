@@ -1,6 +1,6 @@
 <!-- PROJECT LOGO -->
 <br />
-<p align="center">
+<p align="center"   style="background-color:LightYellow;"  >
   <a href="https://github.com/c-matthews/racecar#readme">
     <img src="https://raw.githubusercontent.com/c-matthews/racecar/main/img/logo.png" alt="Logo" width="420" height="210">
   </a>
@@ -30,7 +30,7 @@
     <img src="https://img.shields.io/readthedocs/racecar?style=plastic"
       alt="Docs build stability" />
   </a>
-  
+
   <a href="https://github.com/c-matthews/racecar">
     <img src="https://img.shields.io/badge/python-v3.6+-blue?style=plastic&logo=python"
       alt="Python version" />
@@ -62,6 +62,11 @@
 - [License](#license)
 - [Contact](#contact)
 
+
+## Features
+
+- Lightweight Python library for sampling distributions using cutting edge algorithms.
+- Easily to use and simple to extend with new methods and use cases.
 
 ## Examples
 
