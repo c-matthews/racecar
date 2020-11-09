@@ -16,6 +16,7 @@ from .algos.sgld import SGLD
 from .algos.badodab import BADODAB
 from .algos.baoab import BAOAB
 from .algos.rwmetropolis import RWMETROPOLIS
+from .algos.sghmc import SGHMC
 
 
 class Sampler:
@@ -47,7 +48,7 @@ class Sampler:
         Constructs all the necessary attributes for the sampler object.
         """
 
-        self.timetaken = 0
+        self.timetaken_value = 0
 
         ic = np.array(ic).reshape(-1, 1)
         self.q = np.copy(ic)
@@ -78,14 +79,17 @@ class Sampler:
         if algo.lower() == "rwmetropolis":
             self.ig = RWMETROPOLIS(*args)
 
+        if algo.lower() == "sghmc":
+            self.ig = SGHMC(*args)
+
     def sample(self, Nsteps, printnum=None, thin=1, output=["pos"]):
         """
-        Runs the sampler and returns a trajectory.
+        Runs the sampler and returns a trajectory (if required).
 
         Parameters
         ----------
         Nsteps : int
-            the number of steps to take.
+            the number of steps to produce.
         printnum : int, optional
             if given, prints a  summary of the sampling `printnum` times
         thin : int, optional
@@ -100,7 +104,7 @@ class Sampler:
             - "xi" : Gives the auxilliary variable's value at each step
             - 'mom' : The sampled momentum points
 
-            The default value is just ``["pos"]``.
+            The default value is ``["pos"]``.
 
         Returns
         -------
@@ -169,7 +173,8 @@ class Sampler:
                     "Steps:", n + 1, "  Time:", time.time() - stime, "  V:", self.ig.v
                 )
 
-        self.timetaken = time.time() - stime
+        self.timetaken_value = time.time() - stime
+        self.Nsteps_value = Nsteps
 
         output_tuple = ()
         for o in output:
@@ -188,3 +193,30 @@ class Sampler:
             return output_tuple[0]
 
         return output_tuple
+
+    def timetaken(self):
+        """
+        Returns the wall time of the previously run ``sample`` call.
+
+        Returns
+        -------
+        T : float
+            the wall time of the last sampling run, in seconds.
+        """
+
+        return self.timetaken_value
+
+    def acceptance_rate(self):
+        """
+        Returns the acceptance rate of the previously run ``sample`` call.
+
+        Returns
+        -------
+        A : float
+            the acceptance rate of the last sampling run, if applicable.
+        """
+
+        if (self.ig.acc==0):
+            return 0
+
+        return self.ig.acc / self.Nsteps_value

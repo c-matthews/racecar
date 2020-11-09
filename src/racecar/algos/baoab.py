@@ -1,3 +1,37 @@
+"""
+BAOAB
+========================
+
+A biased Langevin sampling routine that incorporates momentum to expedite sampling over barriers. A damping parameter can be chosen to customize the mixing with the heat bath.
+In the limit of infinite damping this method becomes the LM scheme. Similarly, the BAOAB method is exact for Gaussian distributions.
+
+
+Usage
+^^^^^
+
+Set ``algo="baoab"`` in :ref:`sampler`.
+
+Requires
+^^^^^^^^
+
+The ``llh`` function needs to output the following dictionary keys:
+
+- ``grad`` :: The gradient of the log posterior.
+
+Params
+^^^^^^
+
+The behavior of the sampler can be customized by including the following arguments in the sampler's ``params`` dict.
+
+- ``g`` : positive float
+    (Default 1.0) The isotropic friction constant (`gamma`) used in the Langevin dynamics.
+
+References
+^^^^^^^^^^
+
+- `Molecular Dynamics: With Deterministic and Stochastic Numerical Methods by Benedict Leimkuhler and Charles Matthews, Springer (2017)`
+
+"""
 from .algorithm import Algorithm
 
 

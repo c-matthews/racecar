@@ -1,3 +1,37 @@
+"""
+BADODAB
+========================
+
+A scheme that adaptively learns a constant damping term required to correct the distribution when using stochastic gradients.
+
+Usage
+^^^^^
+
+Set ``algo="badodab"`` in :ref:`sampler`.
+
+Requires
+^^^^^^^^
+
+The ``llh`` function needs to output the following dictionary keys:
+
+- ``grad`` :: The gradient of the log posterior.
+
+Params
+^^^^^^
+
+The behavior of the sampler can be customized by including the following arguments in the sampler's ``params`` dict.
+
+- ``g`` : positive float
+    (Default 1.0) The damping parameter used in the Langevin dynamics.
+- ``mu`` : positive float
+    (Default 1.0) The precision (reciprocal variance) of the auxillary variables distribution.
+
+References
+^^^^^^^^^^
+
+- `Leimkuhler, Benedict, and Xiaocheng Shang. "Adaptive thermostats for noisy gradient systems." SIAM Journal on Scientific Computing 38.2 (2016)`
+
+"""
 from .algorithm import Algorithm
 
 

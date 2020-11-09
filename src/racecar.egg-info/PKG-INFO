@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: racecar
-Version: 0.0.6
+Version: 0.0.8
 Summary: A lightweight Bayesian sampling package
 Home-page: https://github.com/c-matthews/racecar
 Author: Charles Matthews
@@ -14,7 +14,7 @@ Description: <!-- PROJECT LOGO -->
           </a>
         
           <p align="center">
-            A Python package collecting awesome sampling algorithms.
+            A Python package collecting awesome MCMC sampling algorithms.
             <br />
             <a href="https://racecar.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
             <br />
@@ -35,7 +35,7 @@ Description: <!-- PROJECT LOGO -->
           </a>
         
           <a href="https://racecar.readthedocs.io/en/latest/?badge=latest">
-            <img src="https://readthedocs.org/projects/racecar/badge/?version=latest"
+            <img src="https://img.shields.io/readthedocs/racecar?style=plastic"
               alt="Docs build stability" />
           </a>
         
@@ -71,11 +71,16 @@ Description: <!-- PROJECT LOGO -->
         - [Contact](#contact)
         
         
+        ## Features
+        
+        - Lightweight Python library for sampling distributions in high dimensions using cutting-edge algorithms.
+        - Easily to use and simple to extend with new methods and use cases.
+        
         ## Examples
         
-        ##### Simple example
+        ##### Quickstart example
         
-        We will sample points from the distribution <img src="https://latex.codecogs.com/gif.latex?\pi(x)\propto%20\exp(-x^2/12-\cos(2x))" /> using the random walk Metropolis algorithm, and then plot the results.
+        We will sample points from the one-dimensional distribution <img src="https://latex.codecogs.com/gif.latex?\pi(x)\propto%20\exp(-x^2/12-\cos(2x))" /> using the random walk Metropolis algorithm, and then plot the results.
         
         ```python
         # Import racecar and numpy

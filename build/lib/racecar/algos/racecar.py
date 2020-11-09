@@ -1,3 +1,43 @@
+"""
+Racecar
+========================
+
+A general purpose
+
+Usage
+^^^^^
+
+Set ``algo="racecar"`` in :ref:`sampler`.
+
+Requires
+^^^^^^^^
+
+The ``llh`` function needs to output the following dictionary keys:
+
+- ``grad`` :: The gradient of the log posterior.
+- ``grad_data`` :: (optional) The gradient of the log likelihood with respect to the current position, itemized over the data batch. Expects a `(N,D)` array, where the position space is `N` dimensional and the batch size is `D`.
+
+Params
+^^^^^^
+
+The behavior of the sampler can be customized by including the following arguments in the sampler's ``params`` dict.
+
+- ``g`` : positive float
+    (Default 1.0) The damping parameter used in the Langevin dynamics. Must be large enough to dominate the force noise.
+- ``mu`` : positive float
+    (Default 1.0) The precision (reciprocal variance) of the auxillary variables distribution.
+- ``estimate_basis`` : bool
+    (Default `True`) If set to true and ``grad_data`` is given, then the method will approximate the dominant directions for the gradient noise.
+- ``basis_size`` : positive int
+    (Default `Ndim`) The number of basis vectors to use. A smaller number can improve efficiency in high dimensions, but will remove potential accuracy.
+- ``basis`` : `NxK` numpy array
+    (optional) The rank-K basis to use for the damping of the noisy gradient.
+
+.. note::
+    The `Racecar` scheme damps the system in directions specified by the basis vectors.
+    These vectors are estimated from the ``grad_data`` value if it is outputted, otherwise it will use a diagonal basis unless the `basis` keyword is used, or ``estimate_basis`` is turned off.
+
+"""
 from .algorithm import Algorithm
 
 
@@ -7,7 +47,7 @@ class RACECAR(Algorithm):
         super().__init__(np, ic, h, force, params)
 
         self.g = params.get("g", 1)
-        self.mu = params.get("mu", 100)
+        self.mu = params.get("mu", 1)
         ff = self.ff
 
         Ndim = ic.size
@@ -62,9 +102,9 @@ class RACECAR(Algorithm):
 
         h2 = h / 2
 
-        xx = xx + (pp * pp - 1) * h2 / self.mu
+        xx = xx + (pp * pp - 1) * (h2 / self.mu)
         pp = pp * self.np.exp(-h * xx)
-        xx = xx + (pp * pp - 1) * h2 / self.mu
+        xx = xx + (pp * pp - 1) * (h2 / self.mu)
 
         return pp, xx
 

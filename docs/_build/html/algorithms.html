@@ -1,0 +1,542 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Algorithms &mdash; racecar  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Documentation" href="sampler.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> racecar
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Examples &amp; Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampler.html">Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Algorithms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#euler-maruyama-sgld">Euler-Maruyama (SGLD)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#requires">Requires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#params">Params</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#leimkuhler-matthews-lm">Leimkuhler-Matthews (LM)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Requires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Params</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#random-walk-metropolis">Random Walk Metropolis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Requires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Params</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#baoab">BAOAB</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id8">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Requires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Params</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hybrid-monte-carlo-hmc">Hybrid Monte Carlo (HMC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Requires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">Params</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#badodab">BADODAB</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id14">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">Requires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">Params</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#stochastic-gradient-hmc">Stochastic Gradient HMC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id17">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Requires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">Params</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#racecar">Racecar</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id20">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">Requires</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">Params</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">racecar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Algorithms</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/algorithms.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="algorithms">
+<span id="id1"></span><h1>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-racecar.algos.sgld"></span><div class="section" id="euler-maruyama-sgld">
+<h2>Euler-Maruyama (SGLD)<a class="headerlink" href="#euler-maruyama-sgld" title="Permalink to this headline">¶</a></h2>
+<p>The classic Euler-Maruyama scheme, also known as Stochastic Gradient Langevin Dynamics (SGLD) when a stochastic approximation is used as the gradient.</p>
+<p>This scheme uses the gradient of the posterior to move through the configuration space, without Metropolis correction. It produces a biased trajectory (though convergent as the learning rate decreases), but is a good <cite>first-choice</cite> in high dimension for general distributions.</p>
+<div class="section" id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
+<p>Set <code class="docutils literal notranslate"><span class="pre">algo=&quot;sgld&quot;</span></code> in <a class="reference internal" href="sampler.html#sampler"><span class="std std-ref">The sampler module</span></a>.</p>
+</div>
+<div class="section" id="requires">
+<h3>Requires<a class="headerlink" href="#requires" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">llh</span></code> function needs to output the following dictionary keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grad</span></code> :: The (potentially approximate) gradient of the log posterior.</p></li>
+</ul>
+</div>
+<div class="section" id="params">
+<h3>Params<a class="headerlink" href="#params" title="Permalink to this headline">¶</a></h3>
+<p>The behavior of the sampler can be customized by including the following arguments in the sampler’s <code class="docutils literal notranslate"><span class="pre">params</span></code> dict.</p>
+<ul class="simple">
+<li><p>This scheme takes no additional parameters.</p></li>
+</ul>
+<p class="rubric">References</p>
+<p>This scheme is extensively studied, it should be featured heavily in any good statistics textbook.</p>
+<ul class="simple">
+<li><p><cite>Numerical Solution of Stochastic Differential Equations by Eckhard Platen and Peter Kloeden, Springer (1992)</cite></p></li>
+<li><p><cite>Welling, Max, and Yee W. Teh. “Bayesian learning via stochastic gradient Langevin dynamics.” Proceedings of the 28th international conference on machine learning (ICML-11). 2011</cite> <a class="reference external" href="https://www.ics.uci.edu/~welling/publications/papers/stoclangevin_v6.pdf">https://www.ics.uci.edu/~welling/publications/papers/stoclangevin_v6.pdf</a></p></li>
+</ul>
+</div>
+</div>
+<span class="target" id="module-racecar.algos.lm"></span><div class="section" id="leimkuhler-matthews-lm">
+<h2>Leimkuhler-Matthews (LM)<a class="headerlink" href="#leimkuhler-matthews-lm" title="Permalink to this headline">¶</a></h2>
+<p>A biased MCMC sampling method that provides significant accuracy improvements over the Euler-Maruyama scheme, without extra gradient evaluations.
+Gives <cite>exact sampling</cite> for Gaussian target distributions.</p>
+<div class="section" id="id2">
+<h3>Usage<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Set <code class="docutils literal notranslate"><span class="pre">algo=&quot;LM&quot;</span></code> in <a class="reference internal" href="sampler.html#sampler"><span class="std std-ref">The sampler module</span></a>.</p>
+</div>
+<div class="section" id="id3">
+<h3>Requires<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">llh</span></code> function needs to output the following dictionary keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grad</span></code> :: The gradient of the log posterior.</p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Params<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>The behavior of the sampler can be customized by including the following arguments in the sampler’s <code class="docutils literal notranslate"><span class="pre">params</span></code> dict.</p>
+<ul class="simple">
+<li><p>This scheme takes no additional parameters.</p></li>
+</ul>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><cite>Molecular Dynamics: With Deterministic and Stochastic Numerical Methods by Benedict Leimkuhler and Charles Matthews, Springer (2017)</cite></p></li>
+</ul>
+</div>
+</div>
+<span class="target" id="module-racecar.algos.rwmetropolis"></span><div class="section" id="random-walk-metropolis">
+<h2>Random Walk Metropolis<a class="headerlink" href="#random-walk-metropolis" title="Permalink to this headline">¶</a></h2>
+<p>One of the simplest and widely used MCMC sampling algorithms, the Metropolis algorithm proposes a new point using an isotropic Gaussian distribution and accepts with a probability preserving the detailed balance condition.</p>
+<p>The Metropolis condition ensures this method is unbiased, but can be extremely slow to converge (particularly in high dimension).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The acceptance rate for the scheme can be checked by calling the <code class="docutils literal notranslate"><span class="pre">acceptance_rate</span></code> function on the sampler. A good choice is to choose a learning rate so that acceptance is around 0.234.</p>
+</div>
+<div class="section" id="id5">
+<h3>Usage<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>Set <code class="docutils literal notranslate"><span class="pre">algo=&quot;RWMetropolis&quot;</span></code> in <a class="reference internal" href="sampler.html#sampler"><span class="std std-ref">The sampler module</span></a>.</p>
+</div>
+<div class="section" id="id6">
+<h3>Requires<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">llh</span></code> function needs to output the following dictionary keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">llh</span></code> :: The value of the log posterior.</p></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>Params<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>The behavior of the sampler can be customized by including the following arguments in the sampler’s <code class="docutils literal notranslate"><span class="pre">params</span></code> dict.</p>
+<ul class="simple">
+<li><p>This scheme takes no additional parameters.</p></li>
+</ul>
+</div>
+</div>
+<span class="target" id="module-racecar.algos.baoab"></span><div class="section" id="baoab">
+<h2>BAOAB<a class="headerlink" href="#baoab" title="Permalink to this headline">¶</a></h2>
+<p>A biased Langevin sampling routine that incorporates momentum to expedite sampling over barriers. A damping parameter can be chosen to customize the mixing with the heat bath.
+In the limit of infinite damping this method becomes the LM scheme. Similarly, the BAOAB method is exact for Gaussian distributions.</p>
+<div class="section" id="id8">
+<h3>Usage<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>Set <code class="docutils literal notranslate"><span class="pre">algo=&quot;baoab&quot;</span></code> in <a class="reference internal" href="sampler.html#sampler"><span class="std std-ref">The sampler module</span></a>.</p>
+</div>
+<div class="section" id="id9">
+<h3>Requires<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">llh</span></code> function needs to output the following dictionary keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grad</span></code> :: The gradient of the log posterior.</p></li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h3>Params<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>The behavior of the sampler can be customized by including the following arguments in the sampler’s <code class="docutils literal notranslate"><span class="pre">params</span></code> dict.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">g</span></code><span class="classifier">positive float</span></dt><dd><p>(Default 1.0) The isotropic friction constant (<cite>gamma</cite>) used in the Langevin dynamics.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><cite>Molecular Dynamics: With Deterministic and Stochastic Numerical Methods by Benedict Leimkuhler and Charles Matthews, Springer (2017)</cite></p></li>
+</ul>
+</div>
+</div>
+<span class="target" id="module-racecar.algos.hmc"></span><div class="section" id="hybrid-monte-carlo-hmc">
+<h2>Hybrid Monte Carlo (HMC)<a class="headerlink" href="#hybrid-monte-carlo-hmc" title="Permalink to this headline">¶</a></h2>
+<p>Hybrid (or Hamiltonian) Monte Carlo takes steps of constant-energy dynamics after redrawing the kinetic energy. The symplectic scheme used for the constant-energy integration allows for very favorable behavior with dimension, in spite of the Metropolization step.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The acceptance rate for the scheme can be checked by calling the <code class="docutils literal notranslate"><span class="pre">acceptance_rate</span></code> function on the sampler. A good choice is to choose a learning rate so that acceptance is between 0.7 and 0.8.</p>
+</div>
+<div class="section" id="id11">
+<h3>Usage<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>Set <code class="docutils literal notranslate"><span class="pre">algo=&quot;hmc&quot;</span></code> in <a class="reference internal" href="sampler.html#sampler"><span class="std std-ref">The sampler module</span></a>.</p>
+</div>
+<div class="section" id="id12">
+<h3>Requires<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">llh</span></code> function needs to output the following dictionary keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">llh</span></code> :: The log posterior value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grad</span></code> :: The gradient of the log posterior.</p></li>
+</ul>
+</div>
+<div class="section" id="id13">
+<h3>Params<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>The behavior of the sampler can be customized by including the following arguments in the sampler’s <code class="docutils literal notranslate"><span class="pre">params</span></code> dict.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">T</span></code><span class="classifier">positive int</span></dt><dd><p>(Default 5) The number of constant-energy substeps to take between Metropolis tests.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><cite>Hybrid Monte Carlo; Simon Duane, A.D. Kennedy, Brian J. Pendleton, Duncan Roweth (1987)</cite> <a class="reference external" href="https://doi.org/10.1016/0370-2693(87)91197-X">https://doi.org/10.1016/0370-2693(87)91197-X</a></p></li>
+</ul>
+</div>
+</div>
+<span class="target" id="module-racecar.algos.badodab"></span><div class="section" id="badodab">
+<h2>BADODAB<a class="headerlink" href="#badodab" title="Permalink to this headline">¶</a></h2>
+<p>A scheme that adaptively learns a constant damping term required to correct the distribution when using stochastic gradients.</p>
+<div class="section" id="id14">
+<h3>Usage<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>Set <code class="docutils literal notranslate"><span class="pre">algo=&quot;badodab&quot;</span></code> in <a class="reference internal" href="sampler.html#sampler"><span class="std std-ref">The sampler module</span></a>.</p>
+</div>
+<div class="section" id="id15">
+<h3>Requires<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">llh</span></code> function needs to output the following dictionary keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grad</span></code> :: The gradient of the log posterior.</p></li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h3>Params<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<p>The behavior of the sampler can be customized by including the following arguments in the sampler’s <code class="docutils literal notranslate"><span class="pre">params</span></code> dict.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">g</span></code><span class="classifier">positive float</span></dt><dd><p>(Default 1.0) The damping parameter used in the Langevin dynamics.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">mu</span></code><span class="classifier">positive float</span></dt><dd><p>(Default 1.0) The precision (reciprocal variance) of the auxillary variables distribution.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><cite>Leimkuhler, Benedict, and Xiaocheng Shang. “Adaptive thermostats for noisy gradient systems.” SIAM Journal on Scientific Computing 38.2 (2016)</cite></p></li>
+</ul>
+</div>
+</div>
+<span class="target" id="module-racecar.algos.sghmc"></span><div class="section" id="stochastic-gradient-hmc">
+<h2>Stochastic Gradient HMC<a class="headerlink" href="#stochastic-gradient-hmc" title="Permalink to this headline">¶</a></h2>
+<p>A biased scheme for use with stochastic gradients. Estimates the current noise term and damps the dynamics to compensate.</p>
+<p>This implementation assumes that the gradient is a scaled partial sum over data, with the variance estimation coming from the rescaled covariance of the pieces.</p>
+<div class="section" id="id17">
+<h3>Usage<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>Set <code class="docutils literal notranslate"><span class="pre">algo=&quot;sghmc&quot;</span></code> in <a class="reference internal" href="sampler.html#sampler"><span class="std std-ref">The sampler module</span></a>.</p>
+</div>
+<div class="section" id="id18">
+<h3>Requires<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">llh</span></code> function needs to output the following dictionary keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grad</span></code> :: The gradient of the log posterior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grad_data</span></code> :: The gradient of the log likelihood with respect to the current position, itemized over the data batch. Expects a <cite>(N,D)</cite> array, where the position space is <cite>N</cite> dimensional and the batch size is <cite>D</cite>.</p></li>
+</ul>
+</div>
+<div class="section" id="id19">
+<h3>Params<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p>The behavior of the sampler can be customized by including the following arguments in the sampler’s <code class="docutils literal notranslate"><span class="pre">params</span></code> dict.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">g</span></code><span class="classifier">positive float</span></dt><dd><p>(Default 1.0) The damping parameter used in the Langevin dynamics. Must be large enough to dominate the force noise.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">datasize</span></code><span class="classifier">positive int</span></dt><dd><p>The total number of data points in the dataset.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">batchsize</span></code><span class="classifier">positive int</span></dt><dd><p>The number of datapoints in a single batch.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><cite>Chen, Tianqi, Emily Fox, and Carlos Guestrin. “Stochastic gradient hamiltonian monte carlo.” International conference on machine learning. (2014)</cite></p></li>
+</ul>
+</div>
+</div>
+<span class="target" id="module-racecar.algos.racecar"></span><div class="section" id="racecar">
+<h2>Racecar<a class="headerlink" href="#racecar" title="Permalink to this headline">¶</a></h2>
+<p>A general purpose</p>
+<div class="section" id="id20">
+<h3>Usage<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>Set <code class="docutils literal notranslate"><span class="pre">algo=&quot;racecar&quot;</span></code> in <a class="reference internal" href="sampler.html#sampler"><span class="std std-ref">The sampler module</span></a>.</p>
+</div>
+<div class="section" id="id21">
+<h3>Requires<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">llh</span></code> function needs to output the following dictionary keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grad</span></code> :: The gradient of the log posterior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grad_data</span></code> :: (optional) The gradient of the log likelihood with respect to the current position, itemized over the data batch. Expects a <cite>(N,D)</cite> array, where the position space is <cite>N</cite> dimensional and the batch size is <cite>D</cite>.</p></li>
+</ul>
+</div>
+<div class="section" id="id22">
+<h3>Params<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<p>The behavior of the sampler can be customized by including the following arguments in the sampler’s <code class="docutils literal notranslate"><span class="pre">params</span></code> dict.</p>
+<ul>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">g</span></code><span class="classifier">positive float</span></dt><dd><p>(Default 1.0) The damping parameter used in the Langevin dynamics. Must be large enough to dominate the force noise.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">mu</span></code><span class="classifier">positive float</span></dt><dd><p>(Default 1.0) The precision (reciprocal variance) of the auxillary variables distribution.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">estimate_basis</span></code><span class="classifier">bool</span></dt><dd><p>(Default <cite>True</cite>) If set to true and <code class="docutils literal notranslate"><span class="pre">grad_data</span></code> is given, then the method will approximate the dominant directions for the gradient noise.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">basis_size</span></code><span class="classifier">positive int</span></dt><dd><p>(Default <cite>Ndim</cite>) The number of basis vectors to use. A smaller number can improve efficiency in high dimensions, but will remove potential accuracy.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">basis</span></code><span class="classifier"><cite>NxK</cite> numpy array</span></dt><dd><p>(optional) The rank-K basis to use for the damping of the noisy gradient.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <cite>Racecar</cite> scheme damps the system in directions specified by the basis vectors.
+These vectors are estimated from the <code class="docutils literal notranslate"><span class="pre">grad_data</span></code> value if it is outputted, otherwise it will use a diagonal basis unless the <cite>basis</cite> keyword is used, or <code class="docutils literal notranslate"><span class="pre">estimate_basis</span></code> is turned off.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="sampler.html" class="btn btn-neutral float-left" title="Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Charles Matthews
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

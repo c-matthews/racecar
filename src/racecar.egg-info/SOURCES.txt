@@ -17,4 +17,5 @@ src/racecar/algos/hmc.py
 src/racecar/algos/lm.py
 src/racecar/algos/racecar.py
 src/racecar/algos/rwmetropolis.py
+src/racecar/algos/sghmc.py
 src/racecar/algos/sgld.py

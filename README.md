@@ -1,12 +1,12 @@
 <!-- PROJECT LOGO -->
 <br />
-<p align="center"   style="background-color:LightYellow;"  >
+<p align="center">
   <a href="https://github.com/c-matthews/racecar#readme">
     <img src="https://raw.githubusercontent.com/c-matthews/racecar/main/img/logo.png" alt="Logo" width="420" height="210">
   </a>
 
   <p align="center">
-    A Python package collecting awesome sampling algorithms.
+    A Python package collecting awesome MCMC sampling algorithms.
     <br />
     <a href="https://racecar.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
     <br />
@@ -65,14 +65,14 @@
 
 ## Features
 
-- Lightweight Python library for sampling distributions using cutting edge algorithms.
+- Lightweight Python library for sampling distributions in high dimensions using cutting-edge algorithms.
 - Easily to use and simple to extend with new methods and use cases.
 
 ## Examples
 
-##### Simple example
+##### Quickstart example
 
-We will sample points from the distribution <img src="https://latex.codecogs.com/gif.latex?\pi(x)\propto%20\exp(-x^2/12-\cos(2x))" /> using the random walk Metropolis algorithm, and then plot the results.
+We will sample points from the one-dimensional distribution <img src="https://latex.codecogs.com/gif.latex?\pi(x)\propto%20\exp(-x^2/12-\cos(2x))" /> using the random walk Metropolis algorithm, and then plot the results.
 
 ```python
 # Import racecar and numpy
