@@ -56,17 +56,22 @@
 ---
 
 ## Table of Contents
-- [Features](#features)
+- [Why use Racecar?](#Why-use-Racecar)
 - [Examples](#examples)
 - [Installation](#installation)
 - [License](#license)
 - [Contact](#contact)
 
 
-## Features
+## Why use Racecar?
 
-- Lightweight Python library for sampling distributions in high dimensions using cutting-edge algorithms.
+- Racecar is a lightweight Python library for sampling distributions in high dimensions using cutting-edge algorithms.
+- Pass it a function evaluating the log posterior and its gradient, and away you go. Ideal for usage with big data applications, neural networks, regression, mixture modelling, and all sorts of Bayesian inference and sampling.
 - Easily to use and simple to extend with new methods and use cases.
+- Designed for use with stochastic gradients in mind.
+
+<img src="https://raw.githubusercontent.com/c-matthews/racecar/main/img/example_result.png"
+  alt="Results from an inference experiment" />
 
 ## Examples
 
