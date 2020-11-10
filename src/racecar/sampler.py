@@ -91,9 +91,9 @@ class Sampler:
         Nsteps : int
             the number of steps to produce.
         printnum : int, optional
-            if given, prints a  summary of the sampling `printnum` times
+            if given, prints a  summary of the sampling ``printnum`` times
         thin : int, optional
-            thins the trajectory by only including one of each `thin` points
+            thins the trajectory by only including one of each ``thin`` points
         output : list, optional
             a list of strings giving which arrays should be returned by the function.
             The output list can contain

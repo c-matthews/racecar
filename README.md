@@ -102,9 +102,7 @@ Pos_traj, LLH_traj = S.sample(100000, output=['pos','llh'])
 
 Some more detailed examples are given in detailed Jupyter notebooks below
 
-- Example 1
-- Example 2
-- Example 3
+- <a href="https://github.com/c-matthews/racecar/blob/main/Examples/Gaussian_Data_Example.ipynb">Bayesian inference for the mean of Gaussian data</a>
 
 ## Installation
 
