@@ -2,9 +2,11 @@
 Stochastic Gradient HMC
 ========================
 
-A biased scheme for use with stochastic gradients. Estimates the current noise term and damps the dynamics to compensate.
+A biased scheme for use with stochastic gradients. Damps the dynamics to compensate for additional noise coming from a stochastic gradient.
 
-This implementation assumes that the gradient is a scaled partial sum over data, with the variance estimation coming from the rescaled covariance of the pieces.
+The covariance of the stochastic gradient term, denoted `B`, is calculated at every step using a user-supplied function that takes as input the current value of `B` and the `grad_data` terms, if supplied.
+For reasons of ergodicity (i.e. to ensure proper mixing behavior in the method) a matrix `C>=B*h/2` must be given, where `h` is the learning rate or step size. In this implementation we use scale the identity matrix scaled by a parameter ``g`` as the `C` matrix.
+The large damping parameter required can mean that this scheme can easily become unstable and slow to converge if the gradient noise is large.
 
 Usage
 ^^^^^
@@ -25,11 +27,15 @@ Params
 The behavior of the sampler can be customized by including the following arguments in the sampler's ``params`` dict.
 
 - ``g`` : positive float
-    (Default 1.0) The damping parameter used in the Langevin dynamics. Must be large enough to dominate the force noise.
-- ``datasize`` : positive int
-    The total number of data points in the dataset.
-- ``batchsize`` : positive int
-    The number of datapoints in a single batch.
+    (Default 1.0) The damping parameter used in the Langevin dynamics. Must be large enough to dominate the gradient noise.
+- ``auto_friction`` : bool
+    (Default True) Automatically increase the friction ``g`` if the target covariance matrix is not positive-definite.
+- ``B`` : numpy array
+    (Default 0) The initial value to use as the damping matrix for the stochastic gradient.
+- ``grad_cov`` : function
+    A function estimating the covariance of the stochastic gradient, with signature `grad_cov(B, grad_data)`.
+    The current covariance estimate `B` and the `grad_data` term are supplied to the function, and it outputs an `(N,N)` numpy array as the new `B` matrix.
+    If a function is not specified, the default behavior is to use the last estimate of ``B`` without any change.
 
 References
 ^^^^^^^^^^
@@ -45,9 +51,9 @@ class SGHMC(Algorithm):
         super().__init__(np, ic, h, force, params)
 
         self.g = params.get("g", 1)
-        self.datasize = params.get("datasize",1)
-        self.batchsize = params.get("batchsize",1)
-        self.Bfac = (self.datasize * (self.datasize - self.batchsize) / self.batchsize)
+        self.auto_friction = params.get('auto_friction', True)
+        self.grad_cov = params.get('grad_cov', self.zero_cov)
+        self.B = params.get('B', 0*self.np.eye( len(ic) ) )
 
         self.C = self.np.eye( len(ic) ) * self.g
 
@@ -61,11 +67,26 @@ class SGHMC(Algorithm):
         fres = self.force(q)
         self.v, self.f, self.ff = fres.get("llh"), fres.get("grad"), fres.get("grad_data")
 
-        self.B = self.np.cov( self.ff ) * self.Bfac
-        CminusB = self.C - self.B*h2
-        sqCminusB = self.np.linalg.cholesky( CminusB )
+        self.B = self.grad_cov(B=self.B, grad_data=self.ff)
+
+        if (self.auto_friction):
+            for r in range(10):
+                try:
+                    CminusB = self.C - self.B*h2
+                    sqCminusB = self.np.linalg.cholesky( CminusB )
+                    break
+                except self.np.linalg.LinAlgError:
+                    self.g *= 1.5
+                    self.C *= 1.5
+        else:
+            CminusB = self.C - self.B*h2
+            sqCminusB = self.np.linalg.cholesky( CminusB )
 
         self.p = self.p + h * self.f - h * self.np.dot(self.C, self.p)
         self.p = self.p + self.sq2h*self.np.dot(sqCminusB , self.np.random.randn(*self.p.shape))
 
         return q
+
+    def zero_cov(self,B,grad_data):
+
+        return B

@@ -391,8 +391,10 @@ In the limit of infinite damping this method becomes the LM scheme. Similarly, t
 </div>
 <span class="target" id="module-racecar.algos.sghmc"></span><div class="section" id="stochastic-gradient-hmc">
 <h2>Stochastic Gradient HMC<a class="headerlink" href="#stochastic-gradient-hmc" title="Permalink to this headline">¶</a></h2>
-<p>A biased scheme for use with stochastic gradients. Estimates the current noise term and damps the dynamics to compensate.</p>
-<p>This implementation assumes that the gradient is a scaled partial sum over data, with the variance estimation coming from the rescaled covariance of the pieces.</p>
+<p>A biased scheme for use with stochastic gradients. Damps the dynamics to compensate for additional noise coming from a stochastic gradient.</p>
+<p>The covariance of the stochastic gradient term, denoted <cite>B</cite>, is calculated at every step using a user-supplied function that takes as input the current value of <cite>B</cite> and the <cite>grad_data</cite> terms, if supplied.
+For reasons of ergodicity (i.e. to ensure proper mixing behavior in the method) a matrix <cite>C&gt;=B*h/2</cite> must be given, where <cite>h</cite> is the learning rate or step size. In this implementation we use scale the identity matrix scaled by a parameter <code class="docutils literal notranslate"><span class="pre">g</span></code> as the <cite>C</cite> matrix.
+The large damping parameter required can mean that this scheme can easily become unstable and slow to converge if the gradient noise is large.</p>
 <div class="section" id="id17">
 <h3>Usage<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p>Set <code class="docutils literal notranslate"><span class="pre">algo=&quot;sghmc&quot;</span></code> in <a class="reference internal" href="sampler.html#sampler"><span class="std std-ref">The sampler module</span></a>.</p>
@@ -410,17 +412,24 @@ In the limit of infinite damping this method becomes the LM scheme. Similarly, t
 <p>The behavior of the sampler can be customized by including the following arguments in the sampler’s <code class="docutils literal notranslate"><span class="pre">params</span></code> dict.</p>
 <ul class="simple">
 <li><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">g</span></code><span class="classifier">positive float</span></dt><dd><p>(Default 1.0) The damping parameter used in the Langevin dynamics. Must be large enough to dominate the force noise.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">g</span></code><span class="classifier">positive float</span></dt><dd><p>(Default 1.0) The damping parameter used in the Langevin dynamics. Must be large enough to dominate the gradient noise.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">datasize</span></code><span class="classifier">positive int</span></dt><dd><p>The total number of data points in the dataset.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">auto_friction</span></code><span class="classifier">bool</span></dt><dd><p>(Default True) Automatically increase the friction <code class="docutils literal notranslate"><span class="pre">g</span></code> if the target covariance matrix is not positive-definite.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">batchsize</span></code><span class="classifier">positive int</span></dt><dd><p>The number of datapoints in a single batch.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">B</span></code><span class="classifier">numpy array</span></dt><dd><p>(Default 0) The initial value to use as the damping matrix for the stochastic gradient.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">grad_cov</span></code><span class="classifier">function</span></dt><dd><p>A function estimating the covariance of the stochastic gradient, with signature <cite>grad_cov(B, grad_data)</cite>.
+The current covariance estimate <cite>B</cite> and the <cite>grad_data</cite> term are supplied to the function, and it outputs an <cite>(N,N)</cite> numpy array as the new <cite>B</cite> matrix.
+If a function is not specified, the default behavior is to use the last estimate of <code class="docutils literal notranslate"><span class="pre">B</span></code> without any change.</p>
 </dd>
 </dl>
 </li>

@@ -65,8 +65,8 @@
 
 ## Why use Racecar?
 
-- Racecar is a lightweight Python library for sampling distributions in high dimensions using cutting-edge algorithms.
-- Pass it a function evaluating the log posterior and its gradient, and away you go. Ideal for usage with big data applications, neural networks, regression, mixture modelling, and all sorts of Bayesian inference and sampling.
+- Racecar is a lightweight Python library for sampling distributions in high dimensions using cutting-edge algorithms. It can also be used for rapid prototyping of novel methods and application to large problems.
+- Pass a function evaluating the log posterior and/or its gradient, and away you go. Ideal for usage with big data applications, neural networks, regression, mixture modelling, and all sorts of Bayesian inference and sampling problems.
 - Easily to use and simple to extend with new methods and use cases.
 - Designed for use with stochastic gradients in mind.
 
@@ -84,8 +84,10 @@ We will sample points from the one-dimensional distribution <img src="https://la
 import racecar as rc
 import numpy as np
 
-# Define the log likelihood function
-def llh(x):
+# Define the target log posterior function
+# Note we only need it up to a constant multiple, so we do not need to
+# know its normalization constant.
+def log_posterior(x):
   return {
   'llh' : -( np.cos(2*x) + x**2/12 )
   }
@@ -93,10 +95,11 @@ def llh(x):
 # Create the sampler object and use Random Walk Metropolis
 initial_condition = [0]
 learning_rate = 0.5
-S = rc.sampler(initial_condition, learning_rate, llh, algo="RWMetropolis")
+S = rc.sampler(initial_condition, learning_rate, log_posterior, algo="RWMetropolis")
 
-# Sample some points, outputting arrays of position and log likelihood
-Pos_traj, LLH_traj = S.sample(100000, output=['pos','llh'])
+# Sample some points, outputting arrays of the position and the log posterior
+number_of_points = 100000
+Pos_traj, LLH_traj = S.sample(number_of_points, output=['pos','llh'])
 
 # Plot the results using matplotlib
 ```
@@ -105,7 +108,7 @@ Pos_traj, LLH_traj = S.sample(100000, output=['pos','llh'])
 
 ##### More examples
 
-Some more detailed examples are given in detailed Jupyter notebooks below
+Some more detailed examples are given in the Jupyter notebooks below
 
 - <a href="https://github.com/c-matthews/racecar/blob/main/Examples/Gaussian_Data_Example.ipynb">Bayesian inference for the mean of Gaussian data</a>
 
