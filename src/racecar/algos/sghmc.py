@@ -70,14 +70,18 @@ class SGHMC(Algorithm):
         self.B = self.grad_cov(B=self.B, grad_data=self.ff)
 
         if (self.auto_friction):
-            for r in range(10):
+            success = False
+            for r in range(20):
                 try:
                     CminusB = self.C - self.B*h2
                     sqCminusB = self.np.linalg.cholesky( CminusB )
+                    success = True
                     break
                 except self.np.linalg.LinAlgError:
                     self.g *= 1.5
                     self.C *= 1.5
+            if (not success):
+                raise self.np.linalg.LinAlgError
         else:
             CminusB = self.C - self.B*h2
             sqCminusB = self.np.linalg.cholesky( CminusB )

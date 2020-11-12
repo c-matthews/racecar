@@ -25,7 +25,7 @@ def isotropic_gaussian(q):
     return {"llh": llh, "grad": grad}
 
 
-def blr(q, XX, tt, idxs=None, alpha=100 ):
+def blr(q, data, t, idxs=None, alpha=100 ):
     '''
     Bayesian Logistic Regression with a Gaussian prior.
 
@@ -33,9 +33,9 @@ def blr(q, XX, tt, idxs=None, alpha=100 ):
     ----------
     q : numpy array
         Position parameter
-    XX : numpy array
+    data : numpy array
         A (N,d) array, where the d datapoints have dimensionality N.
-    tt : numpy array
+    t : numpy array
         A (1,d) binary array of indicator values
     idxs : list or iterable, optional
         A list of indexes to use in the BLR calculation
@@ -49,13 +49,13 @@ def blr(q, XX, tt, idxs=None, alpha=100 ):
         returns the log likelihood under the ``llh`` key, the gradient under the ``grad`` key and the gradients for each data point are given in ``grad_data``.
     '''
 
-    Ndata = XX.shape[1]
+    Ndata = data.shape[1]
 
     if idxs is None:
         idxs = np.arange(Ndata)
 
-    X = XX[:, idxs].T
-    t = tt[:, idxs].T
+    X = data[:, idxs].T
+    t = t[:, idxs].T
 
     # Prior
     Vprior = -0.5 * np.sum(q ** 2) / alpha
@@ -70,7 +70,7 @@ def blr(q, XX, tt, idxs=None, alpha=100 ):
     V = np.sum(tv * t) - np.sum(np.log(1 + exptv)) - np.sum(tv)
     F = X * (t - 1.0 / (1.0 + exptv))
 
-    TotalV = -(V + Vprior)
+    TotalV = (V + Vprior)
 
     TotalF = (Ndata * np.mean(F, 0, keepdims=True) + Fprior.T).T
 

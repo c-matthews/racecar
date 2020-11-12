@@ -25,6 +25,14 @@ def test_hmc():
 
     assert(Q.shape==(100,3))
 
+def test_sghmc():
+
+    S = rc.sampler([0,0,0], 0.1, rc.llh.isotropic_gaussian, algo='sghmc')
+
+    Q = S.sample(100)
+
+    assert(Q.shape==(100,3))
+
 def test_badodab():
 
     S = rc.sampler([0,0,0], 0.1, rc.llh.isotropic_gaussian, algo='badodab')

@@ -111,6 +111,7 @@ Pos_traj, LLH_traj = S.sample(number_of_points, output=['pos','llh'])
 Some more detailed examples are given in the Jupyter notebooks below
 
 - <a href="https://github.com/c-matthews/racecar/blob/main/Examples/Gaussian_Data_Example.ipynb">Bayesian inference for the mean of Gaussian data</a>
+- <a href="https://github.com/c-matthews/racecar/blob/main/Examples/Bayesian_Logistic_Regression.ipynb">Logistic regression using stochastic gradients</a>
 
 ## Installation
 

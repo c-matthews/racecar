@@ -28,17 +28,20 @@ The behavior of the sampler can be customized by including the following argumen
     (Default 1.0) The precision (reciprocal variance) of the auxillary variables distribution.
 - ``estimate_basis`` : bool
     (Default `True`) If set to true and ``grad_data`` is given, then the method will approximate the dominant directions for the gradient noise.
+- ``estimate_time`` : float
+    (Default 0.5) The time in seconds to spend initially estimating the basis vectors by generating new grad-data. By default it will spend 0.5s building this at setup. Set it to 0 to just use the initial `grad-data` for the guess.
 - ``basis_size`` : positive int
     (Default `Ndim`) The number of basis vectors to use. A smaller number can improve efficiency in high dimensions, but will remove potential accuracy.
 - ``basis`` : `NxK` numpy array
-    (optional) The rank-K basis to use for the damping of the noisy gradient.
+    (optional) The rank-K array of basis vectors to use for the damping of the noisy gradient.
 
 .. note::
-    The `Racecar` scheme damps the system in directions specified by the basis vectors.
-    These vectors are estimated from the ``grad_data`` value if it is outputted, otherwise it will use a diagonal basis unless the `basis` keyword is used, or ``estimate_basis`` is turned off.
+    The `Racecar` scheme damps the system in directions specified by basis vectors.
+    If a ``basis`` is not given, and ``estimate_basis`` is True, then these vectors are estimated from the ``grad_data`` value if it is outputted from the ``llh`` function. If there is no ``grad_data``, then it will the standard (diagonal) basis instead.
 
 """
 from .algorithm import Algorithm
+import time
 
 
 class RACECAR(Algorithm):
@@ -48,6 +51,8 @@ class RACECAR(Algorithm):
 
         self.g = params.get("g", 1)
         self.mu = params.get("mu", 1)
+        self.c1 = self.np.exp(-self.h * self.g)
+        self.c3 = self.np.sqrt(1 - self.c1 * self.c1)
         ff = self.ff
 
         Ndim = ic.size
@@ -59,7 +64,12 @@ class RACECAR(Algorithm):
         else:
             if (ff is not None) and (params.get("estimate_basis", True)):
                 assert ff.shape[0] == Ndim
-                evals, self.B = np.linalg.eig((1e-3) * np.eye(Ndim) + np.cov(ff))
+                my_grad_data = [ff]
+                stime = time.time()
+                while ( (time.time()-stime<=params.get("estimate_time",0.5) )):
+                    my_grad_data.append( self.force(ic)['grad_data'] )
+                my_grad_data = np.hstack(my_grad_data)
+                evals, self.B = np.linalg.eig((1e-6) * np.eye(Ndim) + np.cov(my_grad_data))
                 evals = evals.real
                 self.B = self.B.real
 
@@ -110,9 +120,7 @@ class RACECAR(Algorithm):
 
     def step_E(self):
 
-        c1 = self.np.exp(-self.h * self.g)
-        c3 = self.np.sqrt(1 - c1 * c1)
-        self.p = c1 * self.p + c3 * self.np.random.randn(*self.p.shape)
+        self.p = self.c1 * self.p + self.c3 * self.np.random.randn(*self.p.shape)
 
         return
 
