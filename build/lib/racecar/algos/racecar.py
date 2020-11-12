@@ -2,7 +2,7 @@
 Racecar
 ========================
 
-A general purpose
+A general purpose sampling algorithm, specifically designed for efficient sampling in systems with a stochastic gradient.
 
 Usage
 ^^^^^
@@ -28,14 +28,16 @@ The behavior of the sampler can be customized by including the following argumen
     (Default 1.0) The precision (reciprocal variance) of the auxillary variables distribution.
 - ``estimate_basis`` : bool
     (Default `True`) If set to true and ``grad_data`` is given, then the method will approximate the dominant directions for the gradient noise.
+- ``estimate_time`` : float
+    (Default 0.5) The time in seconds to spend initially estimating the basis vectors by generating new grad-data. By default it will spend 0.5s building this at setup. Set it to 0 to just use the initial `grad-data` for the guess.
 - ``basis_size`` : positive int
     (Default `Ndim`) The number of basis vectors to use. A smaller number can improve efficiency in high dimensions, but will remove potential accuracy.
 - ``basis`` : `NxK` numpy array
     (optional) The rank-K array of basis vectors to use for the damping of the noisy gradient.
 
 .. note::
-    The `Racecar` scheme damps the system in directions specified by the basis vectors.
-    These vectors are estimated from the ``grad_data`` value if it is outputted, otherwise it will use a diagonal basis unless the `basis` keyword is used, or ``estimate_basis`` is turned off.
+    The `Racecar` scheme damps the system in directions specified by basis vectors.
+    If a ``basis`` is not given, and ``estimate_basis`` is True, then these vectors are estimated from the ``grad_data`` value if it is outputted from the ``llh`` function. If there is no ``grad_data``, then it will the standard (diagonal) basis instead.
 
 """
 from .algorithm import Algorithm
@@ -64,7 +66,7 @@ class RACECAR(Algorithm):
                 assert ff.shape[0] == Ndim
                 my_grad_data = [ff]
                 stime = time.time()
-                while ( (time.time()-stime<0.5)):
+                while (time.time()-stime<=params.get("estimate_time",0.5)):
                     my_grad_data.append( self.force(ic)['grad_data'] )
                 my_grad_data = np.hstack(my_grad_data)
                 evals, self.B = np.linalg.eig((1e-6) * np.eye(Ndim) + np.cov(my_grad_data))

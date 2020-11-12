@@ -442,7 +442,7 @@ If a function is not specified, the default behavior is to use the last estimate
 </div>
 <span class="target" id="module-racecar.algos.racecar"></span><div class="section" id="racecar">
 <h2>Racecar<a class="headerlink" href="#racecar" title="Permalink to this headline">¶</a></h2>
-<p>A general purpose</p>
+<p>A general purpose sampling algorithm, specifically designed for efficient sampling in systems with a stochastic gradient.</p>
 <div class="section" id="id20">
 <h3>Usage<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <p>Set <code class="docutils literal notranslate"><span class="pre">algo=&quot;racecar&quot;</span></code> in <a class="reference internal" href="sampler.html#sampler"><span class="std std-ref">The sampler module</span></a>.</p>
@@ -475,6 +475,11 @@ If a function is not specified, the default behavior is to use the last estimate
 </dl>
 </li>
 <li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">estimate_time</span></code><span class="classifier">float</span></dt><dd><p>(Default 0.5) The time in seconds to spend initially estimating the basis vectors by generating new grad-data. By default it will spend 0.5s building this at setup. Set it to 0 to just use the initial <cite>grad-data</cite> for the guess.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">basis_size</span></code><span class="classifier">positive int</span></dt><dd><p>(Default <cite>Ndim</cite>) The number of basis vectors to use. A smaller number can improve efficiency in high dimensions, but will remove potential accuracy.</p>
 </dd>
 </dl>
@@ -487,8 +492,8 @@ If a function is not specified, the default behavior is to use the last estimate
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <cite>Racecar</cite> scheme damps the system in directions specified by the basis vectors.
-These vectors are estimated from the <code class="docutils literal notranslate"><span class="pre">grad_data</span></code> value if it is outputted, otherwise it will use a diagonal basis unless the <cite>basis</cite> keyword is used, or <code class="docutils literal notranslate"><span class="pre">estimate_basis</span></code> is turned off.</p>
+<p>The <cite>Racecar</cite> scheme damps the system in directions specified by basis vectors.
+If a <code class="docutils literal notranslate"><span class="pre">basis</span></code> is not given, and <code class="docutils literal notranslate"><span class="pre">estimate_basis</span></code> is True, then these vectors are estimated from the <code class="docutils literal notranslate"><span class="pre">grad_data</span></code> value if it is outputted from the <code class="docutils literal notranslate"><span class="pre">llh</span></code> function. If there is no <code class="docutils literal notranslate"><span class="pre">grad_data</span></code>, then it will the standard (diagonal) basis instead.</p>
 </div>
 </div>
 </div>

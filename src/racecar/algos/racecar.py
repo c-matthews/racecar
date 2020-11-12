@@ -2,7 +2,7 @@
 Racecar
 ========================
 
-A general purpose
+A general purpose sampling algorithm, specifically designed for efficient sampling in systems with a stochastic gradient.
 
 Usage
 ^^^^^
@@ -66,7 +66,7 @@ class RACECAR(Algorithm):
                 assert ff.shape[0] == Ndim
                 my_grad_data = [ff]
                 stime = time.time()
-                while ( (time.time()-stime<=params.get("estimate_time",0.5) )):
+                while (time.time()-stime<=params.get("estimate_time",0.5)):
                     my_grad_data.append( self.force(ic)['grad_data'] )
                 my_grad_data = np.hstack(my_grad_data)
                 evals, self.B = np.linalg.eig((1e-6) * np.eye(Ndim) + np.cov(my_grad_data))

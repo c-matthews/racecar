@@ -61,7 +61,7 @@ def blr(q, data, t, idxs=None, alpha=100 ):
     Vprior = -0.5 * np.sum(q ** 2) / alpha
     Fprior = -q / alpha
 
-    # LLH
+    # Posterior
     tv = np.dot(X, q)
     exptv = np.exp(-tv)
 

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: racecar
-Version: 0.0.9
+Version: 0.0.10
 Summary: A lightweight Bayesian sampling package
 Home-page: https://github.com/c-matthews/racecar
 Author: Charles Matthews
@@ -119,6 +119,7 @@ Description: <!-- PROJECT LOGO -->
         Some more detailed examples are given in the Jupyter notebooks below
         
         - <a href="https://github.com/c-matthews/racecar/blob/main/Examples/Gaussian_Data_Example.ipynb">Bayesian inference for the mean of Gaussian data</a>
+        - <a href="https://github.com/c-matthews/racecar/blob/main/Examples/Bayesian_Logistic_Regression.ipynb">Logistic regression using stochastic gradients</a>
         
         ## Installation
         
