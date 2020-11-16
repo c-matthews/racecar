@@ -67,11 +67,11 @@ def blr(q, data, t, idxs=None, alpha=100 ):
 
     VV = tv * t - np.log(1 + exptv) - tv
 
-    V = np.sum(tv * t) - np.sum(np.log(1 + exptv)) - np.sum(tv)
+    #V = np.sum(tv * t) - np.sum(np.log(1 + exptv)) - np.sum(tv)
     F = X * (t - 1.0 / (1.0 + exptv))
 
-    TotalV = (V + Vprior)
+    TotalV = (np.sum(VV) + Vprior)
 
     TotalF = (Ndata * np.mean(F, 0, keepdims=True) + Fprior.T).T
 
-    return {"llh": TotalV, "grad": TotalF, "grad_data": F.T}
+    return {"llh": TotalV, "llh_data":VV , "grad": TotalF, "grad_data": F.T}
